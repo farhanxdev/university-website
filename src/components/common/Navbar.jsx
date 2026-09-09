@@ -66,12 +66,12 @@ export default function Navbar({ onOpenSearch }) {
             <span className="text-slate-700">|</span>
             <Link to="/contact" className="hover:text-white transition-colors">Campus Tour</Link>
             <span className="text-slate-700">|</span>
-            <Link to="/admin" className="hover:text-red-300 transition-colors flex items-center gap-1 font-semibold text-red-400">
+            <Link to="/login?role=admin" className="hover:text-red-300 transition-colors flex items-center gap-1 font-semibold text-red-400">
               <ShieldCheck className="w-3.5 h-3.5" /> Staff CMS
             </Link>
             <span className="text-slate-700">|</span>
-            <Link to="/login" className="hover:text-white transition-colors flex items-center gap-1">
-              <User className="w-3.5 h-3.5" /> Portal Login
+            <Link to="/login?role=student" className="hover:text-white transition-colors flex items-center gap-1">
+              <User className="w-3.5 h-3.5" /> Student Portal
             </Link>
           </div>
         </div>
@@ -229,14 +229,14 @@ export default function Navbar({ onOpenSearch }) {
 
             <div className="grid grid-cols-2 gap-2 pt-1">
               <Link
-                to="/login"
+                to="/login?role=student"
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-center py-2.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl"
               >
                 Student Portal
               </Link>
               <Link
-                to="/admin"
+                to="/login?role=admin"
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-center py-2.5 text-xs font-bold text-lincoln bg-red-50 hover:bg-red-100 rounded-xl"
               >
