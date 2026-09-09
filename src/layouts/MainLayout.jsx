@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from '../components/common/Navbar'
 import Footer from '../components/common/Footer'
 import AIChatbot from '../components/ai/AIChatbot'
@@ -7,6 +7,7 @@ import AISmartSearch from '../components/ai/AISmartSearch'
 
 export default function MainLayout() {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const location = useLocation()
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
@@ -18,8 +19,8 @@ export default function MainLayout() {
 
       <Footer />
 
-      {/* Floating AI Chat Assistant */}
-      <AIChatbot />
+      {/* Floating AI Chat Assistant (Only shown for prospective students, hidden in Admin panel) */}
+      {!location.pathname.startsWith('/admin') && <AIChatbot />}
 
       {/* Global AI Smart Search Modal (Triggered by button or Ctrl+K) */}
       <AISmartSearch

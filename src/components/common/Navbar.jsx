@@ -39,6 +39,8 @@ export default function Navbar({ onOpenSearch }) {
     return location.pathname.startsWith(path)
   }
 
+  const isAdmin = location.pathname.startsWith('/admin')
+
   return (
     <header className={`sticky top-0 z-40 transition-all duration-200 ${
       scrolled 
@@ -142,14 +144,29 @@ export default function Navbar({ onOpenSearch }) {
               </kbd>
             </button>
 
-            {/* Apply Now Primary CTA */}
-            <Link
-              to="/apply"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-md shadow-red-900/20 hover:shadow-lg hover:shadow-red-900/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150"
-            >
-              <span>Apply Online</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            {/* Apply Now Primary CTA (Only for students, hidden in admin panel) */}
+            {isAdmin ? (
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow-xs border border-slate-800">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span>Admin Session</span>
+                </span>
+                <Link
+                  to="/"
+                  className="text-xs font-bold text-slate-700 hover:text-lincoln bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-xl transition-colors"
+                >
+                  Exit to Site
+                </Link>
+              </div>
+            ) : (
+              <Link
+                to="/apply"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-md shadow-red-900/20 hover:shadow-lg hover:shadow-red-900/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150"
+              >
+                <span>Apply Online</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            )}
           </div>
 
           {/* Mobile Actions */}
@@ -195,13 +212,20 @@ export default function Navbar({ onOpenSearch }) {
           </div>
 
           <div className="pt-3 border-t border-slate-100 space-y-2">
-            <Link
-              to="/apply"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full block text-center bg-lincoln hover:bg-lincoln-dark text-white font-bold py-3.5 rounded-xl shadow-md text-sm"
-            >
-              Start Admission Application
-            </Link>
+            {!isAdmin ? (
+              <Link
+                to="/apply"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full block text-center bg-lincoln hover:bg-lincoln-dark text-white font-bold py-3.5 rounded-xl shadow-md text-sm"
+              >
+                Start Admission Application
+              </Link>
+            ) : (
+              <div className="bg-slate-900 text-white p-3 rounded-xl text-xs font-bold text-center flex items-center justify-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span>Admin CMS Session Active</span>
+              </div>
+            )}
 
             <div className="grid grid-cols-2 gap-2 pt-1">
               <Link
