@@ -16,14 +16,22 @@ import {
   HelpCircle,
   Award,
   ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  Printer,
+  X,
+  Copy,
+  Receipt
 } from 'lucide-react'
+import { useToast } from '../context/ToastContext'
 
 export default function StudentPortalPage() {
   const navigate = useNavigate()
+  const toast = useToast()
   const [activeTab, setActiveTab] = useState('application') // 'application' | 'courses' | 'fees' | 'support'
   const [studentApp, setStudentApp] = useState(null)
+  const [showOfferModal, setShowOfferModal] = useState(false)
   const [studentAuth, setStudentAuth] = useState(null)
+  const [installmentPaid, setInstallmentPaid] = useState(false)
 
   useEffect(() => {
     // Check authentication
@@ -55,11 +63,23 @@ export default function StudentPortalPage() {
 
   const handleLogout = () => {
     localStorage.removeItem('luc_auth')
+    toast.info('Signed out of Student Portal')
     navigate('/login')
   }
 
   const handleDownloadOffer = () => {
-    alert(`Downloading Official Provisional Offer Letter for ${studentApp?.fullName || 'Student'} (Ref: ${studentApp?.refId || 'LUC-849201'})...`)
+    toast.info('Opening Official Provisional Offer Letter...')
+    setShowOfferModal(true)
+  }
+
+  const handleCopyId = () => {
+    navigator.clipboard.writeText(studentApp?.refId || 'LUC-849201')
+    toast.success('Student ID copied to clipboard!')
+  }
+
+  const handlePayInstallment = () => {
+    setInstallmentPaid(true)
+    toast.success('Payment of RM 3,000 processed! Receipt #LUC-REC-8491 generated.')
   }
 
   return (
@@ -94,7 +114,15 @@ export default function StudentPortalPage() {
                 </div>
                 <div>
                   <div className="font-bold text-white leading-none">{studentApp?.fullName || 'Farhan Rahman'}</div>
-                  <div className="text-[10px] text-slate-400 font-mono mt-0.5">ID: {studentApp?.refId || 'LUC-849201'}</div>
+                  <button 
+                    type="button"
+                    onClick={handleCopyId}
+                    className="text-[10px] text-slate-400 font-mono mt-0.5 hover:text-white flex items-center gap-1 transition-colors group"
+                    title="Click to copy Student ID"
+                  >
+                    <span>ID: {studentApp?.refId || 'LUC-849201'}</span>
+                    <Copy className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100" />
+                  </button>
                 </div>
               </div>
 
@@ -349,15 +377,34 @@ export default function StudentPortalPage() {
 
             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-2">
               <strong className="text-slate-900 block font-bold">Payment Schedule:</strong>
-              <div className="flex justify-between py-1 border-b border-slate-200">
+              <div className="flex justify-between py-2 border-b border-slate-200 items-center">
                 <span>Semester 1 Registration & Deposit</span>
                 <span className="font-bold text-emerald-600">PAID (RM 3,000)</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-200">
-                <span>Semester 1 Balance Installment (Due Aug 30, 2026)</span>
-                <span className="font-bold text-slate-800">RM 3,000</span>
+              <div className="flex justify-between py-2 border-b border-slate-200 items-center">
+                <div>
+                  <span className="block">Semester 1 Balance Installment</span>
+                  <span className="text-[10px] text-slate-400">Due Aug 30, 2026</span>
+                </div>
+                {installmentPaid ? (
+                  <span className="inline-flex items-center gap-1 font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 text-xs">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> PAID (RM 3,000)
+                  </span>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-slate-800">RM 3,000</span>
+                    <button
+                      type="button"
+                      onClick={handlePayInstallment}
+                      className="bg-lincoln hover:bg-lincoln-dark text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-xs transition-all hover:scale-105 active:scale-95 flex items-center gap-1"
+                    >
+                      <CreditCard className="w-3 h-3" />
+                      <span>Pay RM 3,000</span>
+                    </button>
+                  </div>
+                )}
               </div>
-              <div className="flex justify-between py-1">
+              <div className="flex justify-between py-2 items-center">
                 <span>Subsequent Semesters (Flexible monthly PTPTN / installment)</span>
                 <span className="font-bold text-slate-800">Remaining RM 12,000</span>
               </div>
@@ -399,6 +446,122 @@ export default function StudentPortalPage() {
         )}
 
       </main>
+
+      {/* Official Printable Offer Letter Modal */}
+      {showOfferModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-xs overflow-y-auto animate-fadeIn">
+          <div className="bg-white text-slate-900 rounded-3xl max-w-2xl w-full p-8 sm:p-10 shadow-2xl border border-slate-200 relative my-8 print:p-0 print:border-none print:shadow-none">
+            
+            {/* Modal Controls (Hidden when printing) */}
+            <div className="flex justify-between items-center pb-4 border-b border-slate-100 print:hidden">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-lincoln uppercase tracking-wider">Official Document</span>
+                <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Verified PDF</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    toast.success('Print dialog opened!')
+                    window.print()
+                  }}
+                  className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition-colors shadow-xs"
+                >
+                  <Printer className="w-3.5 h-3.5" /> Print Letter
+                </button>
+                <button
+                  onClick={() => setShowOfferModal(false)}
+                  className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Document Content (Printable Letterhead) */}
+            <div className="pt-6 space-y-6 text-slate-800 font-serif text-xs sm:text-sm">
+              
+              {/* Header Letterhead */}
+              <div className="flex justify-between items-start border-b-2 border-red-800 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-lincoln text-white rounded-xl flex items-center justify-center font-bold">
+                    <GraduationCap className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-extrabold tracking-tight text-slate-900 font-sans leading-none">
+                      LINCOLN UNIVERSITY COLLEGE
+                    </h2>
+                    <span className="text-[10px] text-red-700 font-bold uppercase tracking-widest block font-sans mt-0.5">
+                      DKU016(B) • MOHE & MQA ACCREDITED
+                    </span>
+                    <span className="text-[9px] text-slate-500 font-sans block">
+                      Wisma Lincoln, No. 12-18, Jalan SS 6/12, 47301 Petaling Jaya, Selangor, Malaysia
+                    </span>
+                  </div>
+                </div>
+
+                <div className="text-right font-sans">
+                  <div className="text-[10px] font-mono font-bold text-slate-700">REF: {studentApp?.refId || 'LUC-849201'}</div>
+                  <div className="text-[10px] text-slate-500">DATE: {new Date().toLocaleDateString('en-MY', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                </div>
+              </div>
+
+              {/* Recipient Details */}
+              <div className="space-y-1 font-sans text-xs">
+                <div>To: <strong>{studentApp?.fullName || 'Farhan Rahman'}</strong></div>
+                <div>Email: {studentApp?.email || 'student@lincoln.edu.my'} | Contact: {studentApp?.phone || '+60 12-345 6789'}</div>
+                <div>Nationality: {studentApp?.citizenship || 'Malaysian'}</div>
+              </div>
+
+              {/* Subject */}
+              <div className="font-sans font-bold text-sm text-slate-900 border-l-4 border-lincoln pl-3 py-1 bg-red-50/50">
+                OFFICIAL PROVISIONAL OFFER OF ADMISSION — {studentApp?.intake?.toUpperCase() || 'JULY 2026'} INTAKE
+              </div>
+
+              {/* Letter Body */}
+              <div className="space-y-3 leading-relaxed font-sans text-xs text-slate-700">
+                <p>
+                  Dear <strong>{studentApp?.fullName || 'Candidate'}</strong>,
+                </p>
+                <p>
+                  We are pleased to inform you that following the assessment of your academic qualifications by the Lincoln University College Admissions Committee, you have been provisionally accepted into the following program:
+                </p>
+
+                <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-1 my-2">
+                  <div><strong>Degree Program:</strong> {studentApp?.program || 'Bachelor of Computer Science (Software Engineering) (Hons)'}</div>
+                  <div><strong>Awarding Faculty:</strong> Faculty of Computer Science & Multimedia</div>
+                  <div><strong>Scheduled Intake:</strong> {studentApp?.intake || 'July 2026'} (Orientation on July 12, 2026)</div>
+                  <div><strong>Scholarship Status:</strong> 50% President Merit Scholarship Approved (-RM 18,000)</div>
+                </div>
+
+                <p>
+                  This offer is subject to the Malaysian Qualifications Agency (MQA) regulations and submission of original academic transcripts during your official registration day at our main campus in Petaling Jaya.
+                </p>
+                <p>
+                  Please present this offer letter along with your national identification card (MyKad or Passport) to the Student Admissions Office on your scheduled registration date.
+                </p>
+              </div>
+
+              {/* Signatures and Stamp */}
+              <div className="pt-6 border-t border-slate-200 flex justify-between items-end font-sans">
+                <div className="space-y-2">
+                  <div className="text-xs font-serif italic text-slate-600 font-bold">Prof. Dr. Amiya Bhaumik</div>
+                  <div className="w-36 h-0.5 bg-slate-300"></div>
+                  <div className="text-[10px] text-slate-500 uppercase font-bold">Registrar & Vice-President</div>
+                  <div className="text-[9px] text-slate-400">Lincoln University College Malaysia</div>
+                </div>
+
+                <div className="text-center p-2 rounded-xl border-2 border-dashed border-red-200 bg-red-50/40">
+                  <div className="text-[9px] font-bold text-red-700 uppercase">OFFICIAL REGISTRAR STAMP</div>
+                  <div className="text-[8px] text-slate-500 font-mono">SEAL-VERIFIED-LUC-2026</div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </div>
   )

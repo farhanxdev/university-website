@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import { CheckCircle2, GraduationCap, ArrowRight, ShieldCheck } from 'lucide-react'
+import { CheckCircle2, GraduationCap, ArrowRight, ShieldCheck, Copy } from 'lucide-react'
 import { programsData } from '../data/programsData'
+import { useToast } from '../context/ToastContext'
 
 export default function ApplyPage() {
+  const toast = useToast()
   const [searchParams] = useSearchParams()
   const initialProgram = searchParams.get('program') || programsData[0]?.title || ''
 
@@ -30,7 +32,10 @@ export default function ApplyPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!formData.fullName || !formData.email) return
+    if (!formData.fullName || !formData.email) {
+      toast.error('Please fill in your name and email address')
+      return
+    }
 
     const generatedRef = 'LUC-' + Math.floor(100000 + Math.random() * 900000)
     setRefId(generatedRef)
@@ -41,6 +46,12 @@ export default function ApplyPage() {
     localStorage.setItem('luc_applications', JSON.stringify(existing))
 
     setSubmitted(true)
+    toast.success(`Application submitted! Reference ID: ${generatedRef}`)
+  }
+
+  const handleCopyRef = () => {
+    navigator.clipboard.writeText(refId)
+    toast.success('Reference ID copied to clipboard!')
   }
 
   return (
@@ -67,22 +78,39 @@ export default function ApplyPage() {
               <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <h2 className="text-2xl font-extrabold text-slate-900">Application Submitted!</h2>
-                <p className="text-sm text-slate-600">
-                  Your admission reference number is <strong className="text-lincoln font-bold">{refId}</strong>.
-                </p>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-xl border border-slate-300">
+                  <span className="text-xs text-slate-500 font-medium">Ref No:</span>
+                  <strong className="text-lincoln font-bold tracking-wider">{refId}</strong>
+                  <button
+                    type="button"
+                    onClick={handleCopyRef}
+                    className="p-1 hover:bg-slate-200 rounded text-slate-500 hover:text-slate-800 transition-colors"
+                    title="Copy Reference ID"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                  </button>
+                </div>
                 <p className="text-xs text-slate-500 max-w-md mx-auto">
                   A verification email has been sent to <strong>{formData.email}</strong>. Our admissions team will review your qualifications and contact you within 48 hours.
                 </p>
               </div>
 
-              <div className="pt-4 flex justify-center gap-4">
+              <div className="pt-4 flex flex-wrap justify-center gap-3">
+                <Link
+                  to={`/student?ref=${refId}`}
+                  className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow transition-colors"
+                >
+                  <GraduationCap className="w-4 h-4 text-red-400" />
+                  <span>Check Status in Student Portal</span>
+                </Link>
                 <Link
                   to="/programs"
-                  className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white text-sm font-semibold px-6 py-2.5 rounded-xl shadow transition-colors"
+                  className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow transition-colors"
                 >
-                  Browse More Programs <ArrowRight className="w-4 h-4" />
+                  <span>Browse More Programs</span>
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>

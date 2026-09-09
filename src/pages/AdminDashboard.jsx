@@ -17,12 +17,15 @@ import {
   PieChart,
   Shield,
   CheckCircle2,
-  X
+  X,
+  Download
 } from 'lucide-react'
 import { programsData } from '../data/programsData'
+import { useToast } from '../context/ToastContext'
 
 export default function AdminDashboard() {
   const navigate = useNavigate()
+  const toast = useToast()
   const [applications, setApplications] = useState([])
   const [filterStatus, setFilterStatus] = useState('All')
   const [searchTerm, setSearchTerm] = useState('')
@@ -84,6 +87,11 @@ export default function AdminDashboard() {
     )
     setApplications(updated)
     localStorage.setItem('luc_applications', JSON.stringify(updated))
+    if (newStatus === 'Approved') {
+      toast.success(`Application ${refId} has been Approved!`)
+    } else {
+      toast.info(`Application ${refId} status updated to ${newStatus}`)
+    }
   }
 
   const deleteApp = (refId) => {
@@ -92,12 +100,34 @@ export default function AdminDashboard() {
       setApplications(updated)
       localStorage.setItem('luc_applications', JSON.stringify(updated))
       if (selectedApp?.refId === refId) setSelectedApp(null)
+      toast.warning(`Application record ${refId} deleted`)
     }
   }
 
   const handleLogout = () => {
     localStorage.removeItem('luc_auth')
+    toast.info('Signed out of Admin CMS')
     navigate('/login')
+  }
+
+  const exportCSV = () => {
+    if (applications.length === 0) {
+      toast.warning('No applications available to export')
+      return
+    }
+    const headers = "Reference ID,Full Name,Email,Phone,Citizenship,Program,Intake,Status\n"
+    const rows = applications.map(a => 
+      `"${a.refId}","${a.fullName}","${a.email}","${a.phone}","${a.citizenship}","${a.program}","${a.intake}","${a.status || 'Pending'}"`
+    ).join("\n")
+    const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', `Lincoln_Applications_${new Date().toISOString().slice(0, 10)}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    toast.success('Applications exported to CSV successfully!')
   }
 
   const filtered = applications.filter(app => {
@@ -261,19 +291,31 @@ export default function AdminDashboard() {
                 />
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-400 font-semibold">Status:</span>
-                {['All', 'Pending', 'Approved'].map(status => (
-                  <button
-                    key={status}
-                    onClick={() => setFilterStatus(status)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                      filterStatus === status ? 'bg-lincoln text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                    }`}
-                  >
-                    {status}
-                  </button>
-                ))}
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-400 font-semibold">Status:</span>
+                  {['All', 'Pending', 'Approved'].map(status => (
+                    <button
+                      key={status}
+                      onClick={() => setFilterStatus(status)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                        filterStatus === status ? 'bg-lincoln text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      }`}
+                    >
+                      {status}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={exportCSV}
+                  className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-xs transition-colors"
+                  title="Export all applications as CSV"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Export CSV</span>
+                </button>
               </div>
             </div>
 

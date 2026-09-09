@@ -14,8 +14,10 @@ import {
   ExternalLink
 } from 'lucide-react'
 import { faqData } from '../data/faqData'
+import { useToast } from '../context/ToastContext'
 
 export default function ContactPage() {
+  const toast = useToast()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -47,8 +49,12 @@ export default function ContactPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!formData.name || !formData.email) return
+    if (!formData.name || !formData.email) {
+      toast.error('Please enter your name and email')
+      return
+    }
     setSubmitted(true)
+    toast.success('Inquiry sent successfully! Our academic counselor will contact you within 24 hours.')
     setTimeout(() => {
       setSubmitted(false)
       setFormData({ name: '', email: '', phone: '', program: '', message: '' })

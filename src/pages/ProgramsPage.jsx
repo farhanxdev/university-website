@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Search, ArrowRight, BookOpen, Clock, Tag, Filter, Sparkles, SlidersHorizontal, CheckCircle2 } from 'lucide-react'
+import { Search, ArrowRight, BookOpen, Clock, Tag, Filter, Sparkles, SlidersHorizontal, CheckCircle2, Scale } from 'lucide-react'
 import { programsData } from '../data/programsData'
+import ScholarshipCalculator from '../components/common/ScholarshipCalculator'
+import ProgramCompareModal from '../components/programs/ProgramCompareModal'
 
 export default function ProgramsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -11,6 +13,7 @@ export default function ProgramsPage() {
   const [selectedFaculty, setSelectedFaculty] = useState(initialFaculty)
   const [selectedLevel, setSelectedLevel] = useState('All')
   const [sortBy, setSortBy] = useState('default') // 'default' | 'fee-asc' | 'fee-desc'
+  const [compareOpen, setCompareOpen] = useState(false)
 
   const faculties = [
     { name: 'All', label: 'All Faculties' },
@@ -180,15 +183,25 @@ export default function ProgramsPage() {
           </div>
         </div>
 
-        {/* Counter & Clear */}
-        <div className="flex items-center justify-between mt-8 mb-6">
-          <p className="text-xs sm:text-sm text-slate-600">
-            Showing <strong className="text-slate-900 font-bold">{filteredPrograms.length}</strong> available programs
-          </p>
+        {/* Counter & Controls */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-8 mb-6">
+          <div className="flex items-center gap-3">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+              Showing <strong className="text-slate-900 dark:text-white font-bold">{filteredPrograms.length}</strong> available programs
+            </p>
+            <button
+              onClick={() => setCompareOpen(true)}
+              className="inline-flex items-center gap-1.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/60 dark:hover:bg-red-900/60 text-lincoln dark:text-red-400 text-xs font-bold px-3.5 py-1.5 rounded-xl border border-red-200 dark:border-red-800 transition-colors shadow-xs"
+            >
+              <Scale className="w-3.5 h-3.5" />
+              <span>Compare Programs</span>
+            </button>
+          </div>
+
           {(selectedFaculty !== 'All' || selectedLevel !== 'All' || searchQuery !== '' || sortBy !== 'default') && (
             <button
               onClick={resetFilters}
-              className="text-xs font-bold text-lincoln hover:underline"
+              className="text-xs font-bold text-lincoln hover:underline self-start sm:self-auto"
             >
               Reset All Filters
             </button>
@@ -287,6 +300,17 @@ export default function ProgramsPage() {
             </button>
           </div>
         )}
+
+        {/* Interactive Scholarship Calculator */}
+        <div className="mt-16">
+          <ScholarshipCalculator />
+        </div>
+
+        {/* Side-by-Side Course Comparison Modal */}
+        <ProgramCompareModal
+          isOpen={compareOpen}
+          onClose={() => setCompareOpen(false)}
+        />
 
       </div>
     </div>
