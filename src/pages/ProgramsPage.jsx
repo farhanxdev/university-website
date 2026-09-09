@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Search, Filter, ArrowRight, BookOpen, Clock, Tag } from 'lucide-react'
+import { Search, ArrowRight, BookOpen, Clock, Tag, Filter, Sparkles, SlidersHorizontal, CheckCircle2 } from 'lucide-react'
 import { programsData } from '../data/programsData'
 
 export default function ProgramsPage() {
@@ -10,12 +10,20 @@ export default function ProgramsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedFaculty, setSelectedFaculty] = useState(initialFaculty)
   const [selectedLevel, setSelectedLevel] = useState('All')
+  const [sortBy, setSortBy] = useState('default') // 'default' | 'fee-asc' | 'fee-desc'
 
-  const faculties = ['All', 'Computer Science', 'Business', 'Engineering', 'Medicine']
+  const faculties = [
+    { name: 'All', label: 'All Faculties' },
+    { name: 'Computer Science', label: 'Computing & IT' },
+    { name: 'Business', label: 'Business & Finance' },
+    { name: 'Engineering', label: 'Engineering' },
+    { name: 'Medicine', label: 'Medicine & Health' }
+  ]
+
   const levels = ['All', 'Diploma', 'Bachelor Degree', 'Master Degree']
 
   const filteredPrograms = useMemo(() => {
-    return programsData.filter((prog) => {
+    let result = programsData.filter((prog) => {
       const matchFaculty = selectedFaculty === 'All' || prog.faculty === selectedFaculty
       const matchLevel = selectedLevel === 'All' || prog.level === selectedLevel
       const matchSearch =
@@ -27,7 +35,15 @@ export default function ProgramsPage() {
 
       return matchFaculty && matchLevel && matchSearch
     })
-  }, [searchQuery, selectedFaculty, selectedLevel])
+
+    if (sortBy === 'fee-asc') {
+      result = [...result].sort((a, b) => a.tuitionNum - b.tuitionNum)
+    } else if (sortBy === 'fee-desc') {
+      result = [...result].sort((a, b) => b.tuitionNum - a.tuitionNum)
+    }
+
+    return result
+  }, [searchQuery, selectedFaculty, selectedLevel, sortBy])
 
   const handleFacultyChange = (f) => {
     setSelectedFaculty(f)
@@ -43,68 +59,105 @@ export default function ProgramsPage() {
     setSearchQuery('')
     setSelectedFaculty('All')
     setSelectedLevel('All')
+    setSortBy('default')
     setSearchParams({})
   }
 
   return (
-    <div className="space-y-12 pb-20">
-      {/* Header Banner */}
-      <section className="bg-slate-900 text-white py-14 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
-          <span className="text-xs font-bold text-red-400 uppercase tracking-widest">
-            Academic Directory
-          </span>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mt-2">
-            Explore All Academic Programs
+    <div className="space-y-12 pb-24">
+      {/* Cinematic Header Banner */}
+      <section className="relative overflow-hidden bg-slate-950 text-white py-16 md:py-20 border-b border-slate-800">
+        <div className="absolute inset-0 opacity-20">
+          <img 
+            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80" 
+            alt="Students Studying" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent"></div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl space-y-3">
+          <div className="inline-flex items-center gap-2 bg-red-600/30 text-red-300 border border-red-500/30 px-3.5 py-1 rounded-full text-xs font-semibold">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Lincoln Academic Course Finder</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
+            Explore All Degree & Diploma Programs
           </h1>
-          <p className="mt-3 text-slate-300 text-sm sm:text-base">
-            Find the right diploma, bachelor's degree, or master's degree aligned with your personal ambitions.
+          <p className="text-slate-300 text-xs sm:text-base leading-relaxed">
+            Discover accredited pathways designed with leading industry partners to guarantee your career employability.
           </p>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Search & Filter Controls */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-          {/* Search bar */}
-          <div className="relative">
-            <Search className="w-5 h-5 text-slate-400 absolute left-3.5 top-3" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by keywords, e.g. 'Software', 'Cyber Security', 'MBA', 'Hospital'..."
-              className="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:bg-white transition-all"
-            />
+        {/* Search & Filter Control Bar */}
+        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-md space-y-6">
+          
+          {/* Top Search Input & Sorting */}
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="w-5 h-5 text-slate-400 absolute left-4 top-3.5" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by degree title, career, or keywords (e.g. 'Software', 'MBA', 'Hospital')..."
+                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:bg-white transition-all shadow-xs"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3.5 top-3 text-xs text-slate-400 hover:text-slate-600 bg-slate-200 px-2 py-0.5 rounded-md"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            {/* Fee Sorter */}
+            <div className="flex items-center gap-2 shrink-0">
+              <SlidersHorizontal className="w-4 h-4 text-slate-400" />
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="py-3 px-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-red-600"
+              >
+                <option value="default">Sort by: Default</option>
+                <option value="fee-asc">Tuition: Low to High</option>
+                <option value="fee-desc">Tuition: High to Low</option>
+              </select>
+            </div>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center pt-2 border-t border-slate-100">
-            {/* Faculty filter */}
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-                Faculty:
+          {/* Filter Pills Row */}
+          <div className="pt-4 border-t border-slate-100 flex flex-col lg:flex-row gap-6 justify-between items-start lg:items-center">
+            
+            {/* Faculty selection */}
+            <div className="space-y-2 w-full lg:w-auto">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                Filter by Faculty:
               </span>
               <div className="flex flex-wrap gap-2">
                 {faculties.map((fac) => (
                   <button
-                    key={fac}
-                    onClick={() => handleFacultyChange(fac)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                      selectedFaculty === fac
+                    key={fac.name}
+                    onClick={() => handleFacultyChange(fac.name)}
+                    className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                      selectedFaculty === fac.name
                         ? 'bg-lincoln text-white shadow-sm'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                     }`}
                   >
-                    {fac}
+                    {fac.label}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Level filter */}
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+            {/* Study Level selection */}
+            <div className="space-y-2 w-full lg:w-auto">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
                 Study Level:
               </span>
               <div className="flex flex-wrap gap-2">
@@ -112,10 +165,10 @@ export default function ProgramsPage() {
                   <button
                     key={lvl}
                     onClick={() => setSelectedLevel(lvl)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
                       selectedLevel === lvl
                         ? 'bg-slate-900 text-white shadow-sm'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                     }`}
                   >
                     {lvl}
@@ -123,20 +176,21 @@ export default function ProgramsPage() {
                 ))}
               </div>
             </div>
+
           </div>
         </div>
 
-        {/* Results Counter & Reset */}
-        <div className="flex items-center justify-between mt-8 mb-4">
-          <p className="text-sm text-slate-600">
-            Showing <strong className="text-slate-900">{filteredPrograms.length}</strong> programs available
+        {/* Counter & Clear */}
+        <div className="flex items-center justify-between mt-8 mb-6">
+          <p className="text-xs sm:text-sm text-slate-600">
+            Showing <strong className="text-slate-900 font-bold">{filteredPrograms.length}</strong> available programs
           </p>
-          {(selectedFaculty !== 'All' || selectedLevel !== 'All' || searchQuery !== '') && (
+          {(selectedFaculty !== 'All' || selectedLevel !== 'All' || searchQuery !== '' || sortBy !== 'default') && (
             <button
               onClick={resetFilters}
-              className="text-xs font-semibold text-lincoln hover:underline"
+              className="text-xs font-bold text-lincoln hover:underline"
             >
-              Clear All Filters
+              Reset All Filters
             </button>
           )}
         </div>
@@ -147,50 +201,68 @@ export default function ProgramsPage() {
             {filteredPrograms.map((prog) => (
               <div
                 key={prog.id}
-                className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-red-300 transition-all p-6 flex flex-col justify-between group"
+                className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-red-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="inline-block bg-slate-100 text-slate-700 text-xs font-semibold px-2.5 py-1 rounded">
-                      {prog.level}
-                    </span>
-                    <span className="text-xs font-semibold text-lincoln">
-                      {prog.faculty}
-                    </span>
+                <div>
+                  <div className="relative h-48 overflow-hidden">
+                    <img 
+                      src={prog.image} 
+                      alt={prog.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                        {prog.level}
+                      </span>
+                    </div>
+                    <div className="absolute top-3 right-3">
+                      <span className="bg-red-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                        {prog.duration}
+                      </span>
+                    </div>
                   </div>
 
-                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-lincoln transition-colors leading-snug">
-                    {prog.title}
-                  </h3>
+                  <div className="p-6 space-y-3">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-bold text-lincoln uppercase tracking-wider text-[11px]">
+                        {prog.facultyShort || prog.faculty}
+                      </span>
+                      <span className="text-slate-400 font-medium text-[11px]">
+                        {prog.mode}
+                      </span>
+                    </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    {prog.summary}
-                  </p>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-lincoln transition-colors leading-snug line-clamp-2">
+                      {prog.title}
+                    </h3>
 
-                  <div className="pt-2 flex items-center gap-4 text-xs text-slate-500">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-slate-400" />
-                      {prog.duration}
-                    </span>
-                    <span className="flex items-center gap-1 font-semibold text-slate-700">
-                      <Tag className="w-3.5 h-3.5 text-lincoln" />
-                      {prog.tuition}
-                    </span>
+                    <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                      {prog.summary}
+                    </p>
+
+                    <div className="pt-3 flex items-center justify-between text-xs text-slate-500 border-t border-slate-100">
+                      <div>
+                        <span className="text-slate-400 block text-[10px]">Estimated Tuition</span>
+                        <strong className="text-slate-900 font-bold">{prog.tuition}</strong>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-slate-400 block text-[10px]">Upcoming Intakes</span>
+                        <strong className="text-lincoln font-bold">{prog.intakes.split(',')[0]}</strong>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
+                <div className="p-6 pt-0 flex items-center justify-between gap-2">
                   <Link
                     to={`/programs/${prog.id}`}
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-lincoln hover:text-lincoln-dark"
+                    className="flex-1 text-center py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition-colors"
                   >
-                    <span>View Curriculum</span>
-                    <ArrowRight className="w-4 h-4" />
+                    Curriculum & Fees
                   </Link>
-
                   <Link
                     to={`/apply?program=${encodeURIComponent(prog.title)}`}
-                    className="bg-red-50 hover:bg-red-100 text-lincoln text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                    className="flex-1 text-center py-2.5 px-4 bg-lincoln hover:bg-lincoln-dark text-white font-bold text-xs rounded-xl shadow-xs transition-colors"
                   >
                     Apply Now
                   </Link>
@@ -199,20 +271,23 @@ export default function ProgramsPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-4">
-            <BookOpen className="w-12 h-12 text-slate-300 mx-auto" />
-            <h3 className="text-lg font-bold text-slate-800">No matching programs found</h3>
-            <p className="text-sm text-slate-500 max-w-md mx-auto">
-              We couldn't find any courses matching your current search criteria. Try removing filters or searching for another term.
+          <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-4 shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-red-50 text-lincoln flex items-center justify-center mx-auto">
+              <BookOpen className="w-7 h-7" />
+            </div>
+            <h3 className="text-lg font-bold text-slate-900">No matching programs found</h3>
+            <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
+              We couldn't find any courses matching your current filter or search criteria.
             </p>
             <button
               onClick={resetFilters}
-              className="inline-block bg-lincoln text-white text-sm font-semibold px-5 py-2 rounded-lg hover:bg-lincoln-dark transition-colors"
+              className="inline-block bg-lincoln text-white text-xs font-bold px-6 py-2.5 rounded-xl hover:bg-lincoln-dark transition-colors shadow-sm"
             >
-              Reset Filters
+              Reset All Filters
             </button>
           </div>
         )}
+
       </div>
     </div>
   )

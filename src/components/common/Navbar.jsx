@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { 
   GraduationCap, 
@@ -8,18 +8,30 @@ import {
   ArrowRight, 
   Sparkles, 
   User, 
-  ShieldCheck 
+  ShieldCheck,
+  BookOpen,
+  Award,
+  ChevronDown
 } from 'lucide-react'
 
 export default function Navbar({ onOpenSearch }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
-    { name: 'Programs', path: '/programs' },
-    { name: 'Contact Us', path: '/contact' },
+    { name: 'Academic Programs', path: '/programs' },
+    { name: 'Contact & FAQ', path: '/contact' },
   ]
 
   const isActive = (path) => {
@@ -28,23 +40,34 @@ export default function Navbar({ onOpenSearch }) {
   }
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-      {/* Top micro-bar */}
-      <div className="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 hidden md:block">
+    <header className={`sticky top-0 z-40 transition-all duration-200 ${
+      scrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-slate-200' 
+        : 'bg-white border-b border-slate-200'
+    }`}>
+      {/* Top micro-announcement bar */}
+      <div className="bg-slate-950 text-slate-300 text-xs py-2 px-4 hidden md:block border-b border-slate-800">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-6">
-            <span className="flex items-center gap-1.5">
-              <Phone className="w-3.5 h-3.5 text-lincoln" /> Hotline: +60 3-7806 3478
+          <div className="flex items-center space-x-6 text-[11px]">
+            <span className="flex items-center gap-1.5 text-slate-300 font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span className="text-emerald-400 font-semibold">2026 Admissions Open:</span> Up to 50% Merit Scholarships
             </span>
-            <span className="text-slate-400">Intakes: March / July / October 2026</span>
+            <span className="text-slate-500">|</span>
+            <span className="flex items-center gap-1.5 text-slate-400">
+              <Phone className="w-3 h-3 text-lincoln" /> Hotline: +60 3-7806 3478 (Toll-Free: 1300 880 111)
+            </span>
           </div>
-          <div className="flex items-center space-x-4 text-xs">
-            <Link to="/contact" className="hover:text-white transition-colors">Campus Location</Link>
-            <span className="text-slate-600">|</span>
-            <Link to="/admin" className="hover:text-white transition-colors flex items-center gap-1 text-red-300">
-              <ShieldCheck className="w-3.5 h-3.5" /> Staff CMS Panel
+
+          <div className="flex items-center space-x-4 text-[11px]">
+            <Link to="/programs" className="hover:text-white transition-colors">Course Finder</Link>
+            <span className="text-slate-700">|</span>
+            <Link to="/contact" className="hover:text-white transition-colors">Campus Tour</Link>
+            <span className="text-slate-700">|</span>
+            <Link to="/admin" className="hover:text-red-300 transition-colors flex items-center gap-1 font-semibold text-red-400">
+              <ShieldCheck className="w-3.5 h-3.5" /> Staff CMS
             </Link>
-            <span className="text-slate-600">|</span>
+            <span className="text-slate-700">|</span>
             <Link to="/login" className="hover:text-white transition-colors flex items-center gap-1">
               <User className="w-3.5 h-3.5" /> Portal Login
             </Link>
@@ -56,16 +79,26 @@ export default function Navbar({ onOpenSearch }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
-          {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 bg-lincoln text-white rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <GraduationCap className="w-7 h-7" />
+          {/* Brand Logo with Lincoln Crest & Typography */}
+          <Link to="/" className="flex items-center gap-3.5 group">
+            <div className="relative">
+              <div className="w-12 h-12 bg-gradient-to-br from-lincoln to-red-800 text-white rounded-2xl flex items-center justify-center shadow-md shadow-red-900/20 group-hover:scale-105 transition-all duration-200">
+                <GraduationCap className="w-7 h-7 text-white" />
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-amber-400 border-2 border-white rounded-full flex items-center justify-center shadow-xs">
+                <Award className="w-2.5 h-2.5 text-slate-900" />
+              </div>
             </div>
             <div>
-              <span className="block text-xl font-bold tracking-tight text-slate-900 leading-tight">
-                LINCOLN
-              </span>
-              <span className="block text-xs font-semibold tracking-wider text-lincoln uppercase">
+              <div className="flex items-center gap-1.5">
+                <span className="text-2xl font-extrabold tracking-tight text-slate-900 leading-none group-hover:text-lincoln transition-colors">
+                  LINCOLN
+                </span>
+                <span className="text-[10px] bg-red-100 text-lincoln font-bold px-1.5 py-0.5 rounded tracking-wider uppercase">
+                  LUC
+                </span>
+              </div>
+              <span className="block text-[11px] font-bold tracking-widest text-lincoln uppercase mt-0.5">
                 University College
               </span>
             </div>
@@ -79,99 +112,109 @@ export default function Navbar({ onOpenSearch }) {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 ${
                     active
-                      ? 'text-lincoln bg-red-50 font-semibold'
-                      : 'text-slate-600 hover:text-lincoln hover:bg-slate-50'
+                      ? 'text-lincoln bg-red-50/80 shadow-xs'
+                      : 'text-slate-700 hover:text-lincoln hover:bg-slate-50'
                   }`}
                 >
                   {link.name}
+                  {active && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-lincoln rounded-full"></span>
+                  )}
                 </Link>
               )
             })}
           </nav>
 
-          {/* Desktop Actions */}
+          {/* Desktop Right Actions */}
           <div className="hidden md:flex items-center space-x-3">
             {/* AI Smart Search Button */}
             <button
               onClick={onOpenSearch}
-              className="inline-flex items-center gap-2 bg-slate-100 hover:bg-red-50 hover:text-lincoln text-slate-700 text-xs font-medium px-3.5 py-2 rounded-lg border border-slate-200 transition-colors group"
-              title="Open AI Smart Search (Ctrl + K)"
+              className="inline-flex items-center gap-2 bg-slate-100/80 hover:bg-red-50 hover:text-lincoln text-slate-700 text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-slate-200/80 shadow-xs transition-all group"
+              title="Search degrees with AI (Ctrl + K)"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-500 group-hover:scale-110 transition-transform" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-500 group-hover:rotate-12 transition-transform" />
               <span>AI Search</span>
-              <kbd className="hidden lg:inline-block bg-white text-slate-400 px-1.5 py-0.5 rounded text-[10px] border border-slate-200">
+              <kbd className="hidden lg:inline-block bg-white text-slate-400 px-1.5 py-0.5 rounded text-[10px] border border-slate-200 font-mono shadow-xs">
                 Ctrl K
               </kbd>
             </button>
 
+            {/* Apply Now Primary CTA */}
             <Link
               to="/apply"
-              className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white text-sm font-medium px-5 py-2.5 rounded-lg shadow-sm hover:shadow transition-all duration-150"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-md shadow-red-900/20 hover:shadow-lg hover:shadow-red-900/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150"
             >
-              Apply Now
+              <span>Apply Online</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Actions */}
           <div className="md:hidden flex items-center gap-2">
             <button
               onClick={onOpenSearch}
-              className="p-2 rounded-lg text-slate-600 hover:bg-slate-100"
+              className="p-2 rounded-xl text-slate-700 hover:bg-red-50 hover:text-lincoln transition-colors"
               aria-label="AI Search"
             >
               <Sparkles className="w-5 h-5 text-amber-500" />
             </button>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none"
+              className="p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors"
               aria-label="Toggle Menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6 text-slate-800" />}
             </button>
           </div>
+
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-2 animate-fadeIn">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              onClick={() => setMobileMenuOpen(false)}
-              className={`block px-3 py-2.5 rounded-lg text-base font-medium ${
-                isActive(link.path)
-                  ? 'text-lincoln bg-red-50 font-semibold'
-                  : 'text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <div className="pt-4 border-t border-slate-100 flex flex-col gap-2">
+        <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 animate-fadeIn shadow-2xl">
+          <div className="space-y-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-4 py-3 rounded-xl text-base font-semibold ${
+                  isActive(link.path)
+                    ? 'text-lincoln bg-red-50 font-bold'
+                    : 'text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="pt-3 border-t border-slate-100 space-y-2">
             <Link
               to="/apply"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center bg-lincoln hover:bg-lincoln-dark text-white font-medium px-4 py-3 rounded-lg shadow-sm"
+              className="w-full block text-center bg-lincoln hover:bg-lincoln-dark text-white font-bold py-3.5 rounded-xl shadow-md text-sm"
             >
-              Apply for Admission
+              Start Admission Application
             </Link>
-            <div className="grid grid-cols-2 gap-2 pt-2">
+
+            <div className="grid grid-cols-2 gap-2 pt-1">
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-center py-2 text-xs font-semibold text-slate-700 bg-slate-100 rounded-lg"
+                className="text-center py-2.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl"
               >
-                Portal Login
+                Student Portal
               </Link>
               <Link
                 to="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-center py-2 text-xs font-semibold text-lincoln bg-red-50 rounded-lg"
+                className="text-center py-2.5 text-xs font-bold text-lincoln bg-red-50 hover:bg-red-100 rounded-xl"
               >
                 Staff CMS Panel
               </Link>
