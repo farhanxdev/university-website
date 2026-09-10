@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
@@ -11,6 +11,16 @@ import LoginPage from './pages/LoginPage'
 import StudentPortalPage from './pages/StudentPortalPage'
 import AdminDashboard from './pages/AdminDashboard'
 import NotFoundPage from './pages/NotFoundPage'
+import { getActiveAuth } from './utils/authStorage'
+
+// Role-based route guard
+function ProtectedRoute({ allowedRole, children }) {
+  const auth = getActiveAuth()
+  if (!auth || auth.role !== allowedRole) {
+    return <Navigate to={`/login?role=${allowedRole}`} replace />
+  }
+  return children
+}
 
 export default function App() {
   return (
@@ -27,11 +37,25 @@ export default function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Route>
 
-      {/* 2. Isolated Student Portal (Standalone student workspace) */}
-      <Route path="/student" element={<StudentPortalPage />} />
+      {/* 2. Isolated Student Portal (Requires verified student role) */}
+      <Route 
+        path="/student" 
+        element={
+          <ProtectedRoute allowedRole="student">
+            <StudentPortalPage />
+          </ProtectedRoute>
+        } 
+      />
 
-      {/* 3. Isolated Admin CMS Portal (Standalone staff administration workspace) */}
-      <Route path="/admin" element={<AdminDashboard />} />
+      {/* 3. Isolated Admin CMS Portal (Requires staff admin role) */}
+      <Route 
+        path="/admin" 
+        element={
+          <ProtectedRoute allowedRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } 
+      />
     </Routes>
   )
 }

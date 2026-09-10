@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { CheckCircle2, GraduationCap, ArrowRight, ShieldCheck, Copy } from 'lucide-react'
 import { programsData } from '../data/programsData'
 import { useToast } from '../context/ToastContext'
+import { submitNewApplication } from '../utils/authStorage'
 
 export default function ApplyPage() {
   const toast = useToast()
@@ -37,16 +38,10 @@ export default function ApplyPage() {
       return
     }
 
-    const generatedRef = 'LUC-' + Math.floor(100000 + Math.random() * 900000)
-    setRefId(generatedRef)
-
-    // Save to localStorage as a mini management system
-    const existing = JSON.parse(localStorage.getItem('luc_applications') || '[]')
-    existing.push({ ...formData, refId: generatedRef, submittedAt: new Date().toISOString() })
-    localStorage.setItem('luc_applications', JSON.stringify(existing))
-
+    const newApp = submitNewApplication(formData)
+    setRefId(newApp.refId)
     setSubmitted(true)
-    toast.success(`Application submitted! Reference ID: ${generatedRef}`)
+    toast.success(`Application submitted successfully! Reference ID: ${newApp.refId}`)
   }
 
   const handleCopyRef = () => {
@@ -72,42 +67,62 @@ export default function ApplyPage() {
       </section>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white p-6 sm:p-10 rounded-2xl border border-slate-200 shadow-md">
+        <div className="bg-white dark:bg-slate-900 p-6 sm:p-10 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
           {submitted ? (
-            <div className="text-center py-8 space-y-6">
-              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+            <div className="text-center py-6 space-y-6">
+              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <div className="space-y-3">
-                <h2 className="text-2xl font-extrabold text-slate-900">Application Submitted!</h2>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-xl border border-slate-300">
-                  <span className="text-xs text-slate-500 font-medium">Ref No:</span>
-                  <strong className="text-lincoln font-bold tracking-wider">{refId}</strong>
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+                  Application Received & Pending Review
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+                  Application Submitted Successfully!
+                </h2>
+                
+                <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Application Ref:</span>
+                  <strong className="text-lincoln text-base font-mono font-bold tracking-wider">{refId}</strong>
                   <button
                     type="button"
                     onClick={handleCopyRef}
-                    className="p-1 hover:bg-slate-200 rounded text-slate-500 hover:text-slate-800 transition-colors"
+                    className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
                     title="Copy Reference ID"
                   >
-                    <Copy className="w-3.5 h-3.5" />
+                    <Copy className="w-4 h-4" />
                   </button>
                 </div>
-                <p className="text-xs text-slate-500 max-w-md mx-auto">
-                  A verification email has been sent to <strong>{formData.email}</strong>. Our admissions team will review your qualifications and contact you within 48 hours.
+
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-lg mx-auto leading-relaxed">
+                  Your application for <strong>{formData.program}</strong> has been transmitted to the Admissions Office.
                 </p>
               </div>
 
-              <div className="pt-4 flex flex-wrap justify-center gap-3">
+              {/* Admission Process Info */}
+              <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-left space-y-3 max-w-lg mx-auto">
+                <div className="flex items-center gap-2 text-xs font-bold text-slate-800 dark:text-slate-200">
+                  <ShieldCheck className="w-4 h-4 text-lincoln" />
+                  <span>Next Steps for Student Portal Access:</span>
+                </div>
+                <ol className="text-xs text-slate-600 dark:text-slate-300 space-y-2 list-decimal list-inside leading-relaxed">
+                  <li>The Admissions Office verifies your academic credentials and qualifications.</li>
+                  <li>Once approved, the administrator generates your official <strong>Student ID</strong> and <strong>Portal Password</strong>.</li>
+                  <li>You will log into the <strong>Student Portal</strong> using your email and password to view your official Provisional Offer Letter and complete enrollment.</li>
+                </ol>
+              </div>
+
+              <div className="pt-3 flex flex-wrap justify-center gap-3">
                 <Link
-                  to={`/student?ref=${refId}`}
-                  className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow transition-colors"
+                  to="/login?role=student"
+                  className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white text-xs sm:text-sm font-bold px-6 py-3 rounded-xl shadow-md transition-all"
                 >
-                  <GraduationCap className="w-4 h-4 text-red-400" />
-                  <span>Check Status in Student Portal</span>
+                  <GraduationCap className="w-4 h-4 text-amber-300" />
+                  <span>Go to Student Portal Login</span>
                 </Link>
                 <Link
                   to="/programs"
-                  className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow transition-colors"
+                  className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs sm:text-sm font-bold px-6 py-3 rounded-xl transition-all"
                 >
                   <span>Browse More Programs</span>
                   <ArrowRight className="w-4 h-4" />

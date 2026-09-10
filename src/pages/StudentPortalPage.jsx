@@ -20,9 +20,21 @@ import {
   Printer,
   X,
   Copy,
-  Receipt
+  Receipt,
+  AlertCircle,
+  ChevronRight,
+  MapPin,
+  Phone,
+  Mail,
+  Check
 } from 'lucide-react'
 import { useToast } from '../context/ToastContext'
+import { 
+  getActiveAuth, 
+  clearActiveAuth, 
+  getApplications, 
+  recordDepositPayment 
+} from '../utils/authStorage'
 
 export default function StudentPortalPage() {
   const navigate = useNavigate()
@@ -30,41 +42,37 @@ export default function StudentPortalPage() {
   const [activeTab, setActiveTab] = useState('application') // 'application' | 'courses' | 'fees' | 'support'
   const [studentApp, setStudentApp] = useState(null)
   const [showOfferModal, setShowOfferModal] = useState(false)
-  const [studentAuth, setStudentAuth] = useState(null)
-  const [installmentPaid, setInstallmentPaid] = useState(false)
+  const [copiedId, setCopiedId] = useState(false)
 
+  // 1. Role-Based Route Protection & Student Profile Loading
   useEffect(() => {
-    // Check authentication
-    const auth = JSON.parse(localStorage.getItem('luc_auth') || 'null')
-    setStudentAuth(auth)
-
-    // Load student's application from localStorage
-    const apps = JSON.parse(localStorage.getItem('luc_applications') || '[]')
-    if (apps.length > 0) {
-      // Pick the latest application or the first one
-      setStudentApp(apps[0])
-    } else {
-      // Default sample application for student demo
-      const sample = {
-        refId: 'LUC-849201',
-        fullName: 'Farhan Rahman',
-        email: 'farhan@lincoln.edu.my',
-        phone: '+60 12-345 6789',
-        citizenship: 'Malaysian',
-        program: 'Bachelor of Computer Science (Software Engineering) (Hons)',
-        qualification: 'STPM / A-Levels',
-        intake: 'July 2026',
-        status: 'Approved',
-        submittedAt: new Date().toISOString()
-      }
-      setStudentApp(sample)
+    const auth = getActiveAuth()
+    if (!auth || auth.role !== 'student') {
+      toast.error('Student login required. Please sign in with your issued student credentials.')
+      navigate('/login?role=student')
+      return
     }
-  }, [])
+
+    const apps = getApplications()
+    // Match by studentId, email, or refId
+    const matched = apps.find(a => 
+      (auth.studentId && a.studentId === auth.studentId) ||
+      (auth.email && a.email.toLowerCase() === auth.email.toLowerCase()) ||
+      (auth.refId && a.refId === auth.refId)
+    )
+
+    if (matched) {
+      setStudentApp(matched)
+    } else {
+      toast.error('Student record not found. Please contact Admissions.')
+      navigate('/login?role=student')
+    }
+  }, [navigate, toast])
 
   const handleLogout = () => {
-    localStorage.removeItem('luc_auth')
+    clearActiveAuth()
     toast.info('Signed out of Student Portal')
-    navigate('/login')
+    navigate('/login?role=student')
   }
 
   const handleDownloadOffer = () => {
@@ -73,19 +81,40 @@ export default function StudentPortalPage() {
   }
 
   const handleCopyId = () => {
-    navigator.clipboard.writeText(studentApp?.refId || 'LUC-849201')
+    if (!studentApp) return
+    navigator.clipboard.writeText(studentApp.studentId || studentApp.refId)
+    setCopiedId(true)
     toast.success('Student ID copied to clipboard!')
+    setTimeout(() => setCopiedId(false), 2000)
   }
 
-  const handlePayInstallment = () => {
-    setInstallmentPaid(true)
-    toast.success('Payment of RM 3,000 processed! Receipt #LUC-REC-8491 generated.')
+  const handlePayDeposit = () => {
+    if (!studentApp) return
+    const updated = recordDepositPayment(studentApp.refId)
+    if (updated) {
+      setStudentApp({ ...updated })
+      toast.success('Tuition deposit of RM 3,000 processed! Receipt #LUC-REC-8491 generated.')
+    }
   }
+
+  if (!studentApp) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
+        <div className="bg-white p-8 rounded-2xl shadow-md text-center space-y-3">
+          <div className="w-10 h-10 border-4 border-lincoln border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-xs text-slate-500 font-semibold">Loading your student records...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Progress Steps calculation
+  const isDepositPaid = studentApp.depositPaid || studentApp.admissionStage >= 4
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col">
       
-      {/* 1. Dedicated Student Portal Header (Separate from Public Site) */}
+      {/* 1. Dedicated Student Portal Header */}
       <header className="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -107,21 +136,21 @@ export default function StudentPortalPage() {
             </div>
 
             {/* Student Identity & Actions */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4">
               <div className="hidden sm:flex items-center gap-2.5 bg-slate-800/80 border border-slate-700 px-3 py-1.5 rounded-xl text-xs">
                 <div className="w-7 h-7 bg-lincoln/30 text-red-400 rounded-lg flex items-center justify-center font-bold">
                   <User className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="font-bold text-white leading-none">{studentApp?.fullName || 'Farhan Rahman'}</div>
+                  <div className="font-bold text-white leading-none">{studentApp.fullName}</div>
                   <button 
                     type="button"
                     onClick={handleCopyId}
                     className="text-[10px] text-slate-400 font-mono mt-0.5 hover:text-white flex items-center gap-1 transition-colors group"
                     title="Click to copy Student ID"
                   >
-                    <span>ID: {studentApp?.refId || 'LUC-849201'}</span>
-                    <Copy className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100" />
+                    <span>ID: <strong className="text-red-400">{studentApp.studentId || studentApp.refId}</strong></span>
+                    {copiedId ? <Check className="w-2.5 h-2.5 text-emerald-400" /> : <Copy className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100" />}
                   </button>
                 </div>
               </div>
@@ -160,21 +189,253 @@ export default function StudentPortalPage() {
               <span>Academic Year 2026 | Enrolled Student Workspace</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Welcome back, {studentApp?.fullName || 'Student'}!
+              Welcome back, {studentApp.fullName}!
             </h1>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
-              Track your admission offer letter, enrolled semester modules, tuition payment schedule, and direct academic advising.
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+              Program: <strong className="text-white">{studentApp.program}</strong> • Student ID: <strong className="text-amber-400 font-mono">{studentApp.studentId || studentApp.refId}</strong>
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2.5">
             <button
               onClick={handleDownloadOffer}
-              className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition-all"
+              className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white text-xs font-bold px-5 py-3 rounded-xl shadow-md transition-all hover:scale-105 active:scale-95"
             >
               <Download className="w-4 h-4" />
               <span>Download Offer Letter</span>
             </button>
+          </div>
+        </div>
+
+        {/* 3. ADMISSION PROGRESS TRACKER (Core User Request) */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-lincoln">Enrollment Pipeline</span>
+              <h2 className="text-xl font-bold text-slate-900">Your Admission Progress</h2>
+            </div>
+            <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+              Status: <strong className="text-emerald-700 font-extrabold">{isDepositPaid ? 'Seat Confirmed' : 'Offer Issued & Awaiting Deposit'}</strong>
+            </span>
+          </div>
+
+          {/* Stepper Steps */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+            {/* Step 1 */}
+            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center">1</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </div>
+              <div className="text-xs font-bold text-slate-900">Application Submitted</div>
+              <div className="text-[11px] text-slate-500 font-mono">Ref: {studentApp.refId}</div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center">2</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </div>
+              <div className="text-xs font-bold text-slate-900">Academic Review</div>
+              <div className="text-[11px] text-emerald-700 font-semibold">Verified by Admissions</div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center">3</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </div>
+              <div className="text-xs font-bold text-slate-900">ID & Offer Issued</div>
+              <div className="text-[11px] text-slate-700 font-mono font-bold">{studentApp.studentId || 'ID Issued'}</div>
+            </div>
+
+            {/* Step 4 */}
+            <div className={`p-4 rounded-2xl border space-y-1.5 transition-all ${
+              isDepositPaid 
+                ? 'bg-emerald-50 border-emerald-200' 
+                : 'bg-amber-50/80 border-amber-300 ring-2 ring-amber-400/30'
+            }`}>
+              <div className="flex items-center justify-between">
+                <span className={`w-6 h-6 rounded-full text-white text-xs font-bold flex items-center justify-center ${
+                  isDepositPaid ? 'bg-emerald-600' : 'bg-amber-500'
+                }`}>4</span>
+                {isDepositPaid ? (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                ) : (
+                  <span className="text-[10px] bg-amber-200 text-amber-900 font-bold px-1.5 py-0.5 rounded">Action Needed</span>
+                )}
+              </div>
+              <div className="text-xs font-bold text-slate-900">Tuition Deposit</div>
+              <div className="text-[11px] font-semibold text-slate-600">
+                {isDepositPaid ? 'RM 3,000 Paid (Confirmed)' : 'RM 3,000 Due'}
+              </div>
+            </div>
+
+            {/* Step 5 */}
+            <div className={`p-4 rounded-2xl border space-y-1.5 ${
+              isDepositPaid 
+                ? 'bg-slate-50 border-slate-200' 
+                : 'bg-slate-50/60 border-slate-200 opacity-60'
+            }`}>
+              <div className="flex items-center justify-between">
+                <span className="w-6 h-6 rounded-full bg-slate-300 text-slate-700 text-xs font-bold flex items-center justify-center">5</span>
+                <Calendar className="w-4 h-4 text-slate-400" />
+              </div>
+              <div className="text-xs font-bold text-slate-900">Induction & Classes</div>
+              <div className="text-[11px] text-slate-500">July 12, 2026 Orientation</div>
+            </div>
+          </div>
+        </div>
+
+        {/* 4. DYNAMIC "WHAT TO DO NEXT" GUIDANCE CARD (Core User Request) */}
+        <div className={`rounded-3xl p-6 sm:p-8 border shadow-sm space-y-4 ${
+          !isDepositPaid
+            ? 'bg-gradient-to-br from-amber-50/90 via-white to-red-50/30 border-amber-300'
+            : 'bg-gradient-to-br from-emerald-50/90 via-white to-slate-50 border-emerald-200'
+        }`}>
+          <div className="flex items-start gap-4">
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 font-bold shadow-sm ${
+              !isDepositPaid ? 'bg-amber-500 text-white' : 'bg-emerald-600 text-white'
+            }`}>
+              {!isDepositPaid ? <AlertCircle className="w-6 h-6" /> : <ShieldCheck className="w-6 h-6" />}
+            </div>
+
+            <div className="flex-1 space-y-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <h3 className="text-lg font-extrabold text-slate-900">
+                  {!isDepositPaid 
+                    ? 'What To Do Next: Download Offer Letter & Confirm Your Seat' 
+                    : 'What To Do Next: Prepare for Campus Orientation & Matriculation'}
+                </h3>
+                <span className={`text-xs font-bold px-3 py-1 rounded-full shrink-0 w-fit ${
+                  !isDepositPaid ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                }`}>
+                  {!isDepositPaid ? 'Step 4 of 5' : 'Step 5 of 5 • Enrolled'}
+                </span>
+              </div>
+
+              {!isDepositPaid ? (
+                <div className="space-y-3 pt-1">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Congratulations! Your application has been approved and your official Student ID (<strong className="font-mono text-slate-900">{studentApp.studentId || studentApp.refId}</strong>) has been generated. Complete the following to secure your placement:
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                    <div className="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-xs space-y-1">
+                      <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                        <span className="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-[10px] flex items-center justify-center font-bold">A</span>
+                        <span>Download Offer Letter</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                        Download your official provisional letter bearing the Registrar stamp and university seal.
+                      </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-xs space-y-1">
+                      <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                        <span className="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-[10px] flex items-center justify-center font-bold">B</span>
+                        <span>Pay Semester Deposit</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                        Pay your Semester 1 deposit (RM 3,000) online to lock in your 50% scholarship waiver.
+                      </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-xs space-y-1">
+                      <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                        <span className="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-[10px] flex items-center justify-center font-bold">C</span>
+                        <span>Registration Day Documents</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                        Prepare original MyKad/Passport & SPM/STPM transcripts for document verification.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={handleDownloadOffer}
+                      className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-md transition-all"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Download Provisional Offer Letter</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handlePayDeposit}
+                      className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-md transition-all"
+                    >
+                      <CreditCard className="w-4 h-4 text-emerald-400" />
+                      <span>Pay Deposit Online (RM 3,000)</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-3 pt-1">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Your semester tuition deposit has been verified! Your student enrollment is complete. Follow the schedule below for your first week on campus:
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                    <div className="p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-xs space-y-1">
+                      <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                        <Calendar className="w-4 h-4 text-emerald-600" />
+                        <span>Orientation Day</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                        <strong>July 12, 2026 @ 9:00 AM</strong><br />
+                        Auditorium 1, Main Campus Wisma Lincoln.
+                      </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-xs space-y-1">
+                      <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                        <User className="w-4 h-4 text-emerald-600" />
+                        <span>Collect Smartcard ID</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                        Registrar Office Block B, Level 1.<br />
+                        Present your Offer Letter & receipt.
+                      </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-xs space-y-1">
+                      <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                        <BookOpen className="w-4 h-4 text-emerald-600" />
+                        <span>Check Timetable</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                        4 modules enrolled for Semester 1.<br />
+                        Lectures start on July 15, 2026.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('courses')}
+                      className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-md transition-all"
+                    >
+                      <BookOpen className="w-4 h-4 text-amber-400" />
+                      <span>View Semester Modules</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleDownloadOffer}
+                      className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-md transition-all"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>View Official Offer Letter</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -205,116 +466,71 @@ export default function StudentPortalPage() {
           })}
         </div>
 
-        {/* Tab 1: Admission Status & Documents */}
+        {/* Tab 1: Application Status & Documents */}
         {activeTab === 'application' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fadeIn">
-            
-            {/* Main Application Card */}
-            <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="space-y-6 animate-fadeIn">
+            {/* Admission Status Details */}
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+              <div className="flex justify-between items-start">
                 <div>
-                  <span className="text-[11px] font-bold text-lincoln uppercase tracking-wider">Application Details</span>
-                  <h3 className="text-lg font-bold text-slate-900 mt-0.5">{studentApp?.program}</h3>
+                  <span className="text-[11px] font-bold text-lincoln uppercase tracking-wider">Admission Record</span>
+                  <h3 className="text-xl font-bold text-slate-900 mt-0.5">Program & Applicant Information</h3>
                 </div>
-                <span className={`px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 ${
-                  studentApp?.status === 'Approved'
-                    ? 'bg-emerald-100 text-emerald-800'
-                    : 'bg-amber-100 text-amber-800'
-                }`}>
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>{studentApp?.status || 'Approved'}</span>
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4" /> Approved
                 </span>
               </div>
 
-              {/* Details grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <span className="text-slate-400 text-xs block">Admission Reference</span>
-                  <span className="font-mono font-bold text-slate-900 text-base">{studentApp?.refId}</span>
+                  <span className="text-xs text-slate-400 font-semibold block">Official Student ID</span>
+                  <span className="font-mono text-sm font-bold text-lincoln">{studentApp.studentId || studentApp.refId}</span>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <span className="text-slate-400 text-xs block">Assigned Intake</span>
-                  <span className="font-bold text-lincoln text-base">{studentApp?.intake}</span>
+                  <span className="text-xs text-slate-400 font-semibold block">Application Reference</span>
+                  <span className="font-mono text-sm font-bold text-slate-900">{studentApp.refId}</span>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <span className="text-slate-400 text-xs block">Student Email</span>
-                  <span className="font-semibold text-slate-800">{studentApp?.email}</span>
+                  <span className="text-xs text-slate-400 font-semibold block">Scheduled Intake</span>
+                  <span className="text-sm font-bold text-slate-900">{studentApp.intake}</span>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <span className="text-slate-400 text-xs block">Citizenship Status</span>
-                  <span className="font-semibold text-slate-800">{studentApp?.citizenship}</span>
+                  <span className="text-xs text-slate-400 font-semibold block">Citizenship</span>
+                  <span className="text-sm font-bold text-slate-900">{studentApp.citizenship}</span>
                 </div>
               </div>
 
-              {/* Progress Milestones */}
-              <div className="space-y-3 pt-2">
-                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Admission Progress Checklist</h4>
-                <div className="space-y-2.5">
-                  <div className="flex items-center gap-3 text-xs bg-emerald-50 text-emerald-900 p-3 rounded-xl border border-emerald-200">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                    <span className="font-semibold">Online Application Submitted & Verified</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-xs bg-emerald-50 text-emerald-900 p-3 rounded-xl border border-emerald-200">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                    <span className="font-semibold">Academic Transcript Review Completed</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-xs bg-emerald-50 text-emerald-900 p-3 rounded-xl border border-emerald-200">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                    <span className="font-semibold">Provisional Offer Letter Issued</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-xs bg-slate-50 text-slate-600 p-3 rounded-xl border border-slate-200">
-                    <Clock className="w-5 h-5 text-amber-500 shrink-0" />
-                    <span>Orientation Day & Student ID Card Collection (Scheduled for July 12, 2026)</span>
-                  </div>
+              {/* Program Details */}
+              <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
+                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Enrolled Academic Degree</div>
+                <h4 className="text-lg font-extrabold text-slate-900">{studentApp.program}</h4>
+                <div className="text-xs text-slate-600 flex flex-wrap gap-4">
+                  <span>Awarding Faculty: <strong>{studentApp.faculty || 'Faculty of Computer Science & Multimedia'}</strong></span>
+                  <span>Accreditation: <strong>100% MQA & MOHE Approved</strong></span>
+                  <span>Entry Qualification: <strong>{studentApp.qualification}</strong></span>
                 </div>
               </div>
-            </div>
 
-            {/* Quick Actions & Official Documents */}
-            <div className="lg:col-span-4 space-y-6">
-              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                <h3 className="font-bold text-sm text-slate-900 border-b border-slate-100 pb-3">
-                  Official Documents
-                </h3>
-                <div className="space-y-2.5">
-                  <button
-                    onClick={handleDownloadOffer}
-                    className="w-full p-3 rounded-2xl border border-slate-200 hover:border-red-300 hover:bg-red-50/50 text-left transition-all flex items-center justify-between group"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <FileText className="w-4 h-4 text-lincoln" />
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-lincoln">Provisional Offer Letter</div>
-                        <div className="text-[10px] text-slate-400">PDF • 142 KB</div>
-                      </div>
-                    </div>
-                    <Download className="w-4 h-4 text-slate-400 group-hover:text-lincoln" />
-                  </button>
-
-                  <button
-                    onClick={() => alert('Downloading Campus Orientation Handbook...')}
-                    className="w-full p-3 rounded-2xl border border-slate-200 hover:border-red-300 hover:bg-red-50/50 text-left transition-all flex items-center justify-between group"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <BookOpen className="w-4 h-4 text-lincoln" />
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-lincoln">Orientation Handbook</div>
-                        <div className="text-[10px] text-slate-400">PDF • 1.2 MB</div>
-                      </div>
-                    </div>
-                    <Download className="w-4 h-4 text-slate-400 group-hover:text-lincoln" />
-                  </button>
+              {/* Offer Letter Action Callout */}
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-red-50 to-amber-50 border border-red-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Award className="w-5 h-5 text-lincoln" />
+                    <h4 className="font-bold text-slate-900 text-sm">Official Provisional Offer Letter Available</h4>
+                  </div>
+                  <p className="text-xs text-slate-600 max-w-xl">
+                    Your offer letter has been authorized by the Registrar with Reference <strong>{studentApp.refId}</strong> and MQA approval.
+                  </p>
                 </div>
-
-                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1">
-                  <strong className="text-slate-800 block">Orientation Day:</strong>
-                  <div>Date: <strong>July 12, 2026 (Monday)</strong></div>
-                  <div>Time: <strong>9:00 AM – 2:00 PM</strong></div>
-                  <div>Venue: <strong>Main Auditorium, Wisma Lincoln</strong></div>
-                </div>
+                <button
+                  onClick={handleDownloadOffer}
+                  className="bg-lincoln hover:bg-lincoln-dark text-white text-xs font-bold px-5 py-3 rounded-xl shadow-sm transition-all flex items-center gap-2 shrink-0"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>View Official Offer Letter</span>
+                </button>
               </div>
             </div>
-
           </div>
         )}
 
@@ -357,7 +573,7 @@ export default function StudentPortalPage() {
           <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6 animate-fadeIn">
             <div>
               <span className="text-[11px] font-bold text-lincoln uppercase tracking-wider">Fee Account</span>
-              <h3 className="text-xl font-bold text-slate-900 mt-0.5">Tuition & Financial Statement</h3>
+              <h3 className="text-xl font-bold text-slate-900 mt-0.5">Tuition & Scholarship Statement</h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
@@ -366,7 +582,7 @@ export default function StudentPortalPage() {
                 <span className="text-2xl font-extrabold text-slate-900 mt-1 block">RM 36,000</span>
               </div>
               <div className="bg-emerald-50 p-5 rounded-2xl border border-emerald-200">
-                <span className="text-xs text-emerald-700 font-semibold block">Merit Scholarship Applied (50%)</span>
+                <span className="text-xs text-emerald-700 font-semibold block">{studentApp.scholarship || '50% Merit Scholarship Applied'}</span>
                 <span className="text-2xl font-extrabold text-emerald-700 mt-1 block">- RM 18,000</span>
               </div>
               <div className="bg-red-50 p-5 rounded-2xl border border-red-200">
@@ -375,37 +591,46 @@ export default function StudentPortalPage() {
               </div>
             </div>
 
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-2">
-              <strong className="text-slate-900 block font-bold">Payment Schedule:</strong>
-              <div className="flex justify-between py-2 border-b border-slate-200 items-center">
-                <span>Semester 1 Registration & Deposit</span>
-                <span className="font-bold text-emerald-600">PAID (RM 3,000)</span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-slate-200 items-center">
+            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-3">
+              <strong className="text-slate-900 block font-bold text-sm">Payment Breakdown & Schedule:</strong>
+              
+              <div className="flex justify-between py-2.5 border-b border-slate-200 items-center">
                 <div>
-                  <span className="block">Semester 1 Balance Installment</span>
-                  <span className="text-[10px] text-slate-400">Due Aug 30, 2026</span>
+                  <span className="font-bold text-slate-800 block">Semester 1 Registration & Tuition Deposit</span>
+                  <span className="text-[10px] text-slate-400">Required to confirm placement & receive student card</span>
                 </div>
-                {installmentPaid ? (
-                  <span className="inline-flex items-center gap-1 font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 text-xs">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> PAID (RM 3,000)
+                {isDepositPaid ? (
+                  <span className="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-lg border border-emerald-200 text-xs">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" /> PAID (RM 3,000)
                   </span>
                 ) : (
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-slate-800">RM 3,000</span>
                     <button
                       type="button"
-                      onClick={handlePayInstallment}
+                      onClick={handlePayDeposit}
                       className="bg-lincoln hover:bg-lincoln-dark text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-xs transition-all hover:scale-105 active:scale-95 flex items-center gap-1"
                     >
-                      <CreditCard className="w-3 h-3" />
-                      <span>Pay RM 3,000</span>
+                      <CreditCard className="w-3.5 h-3.5" />
+                      <span>Pay Now</span>
                     </button>
                   </div>
                 )}
               </div>
-              <div className="flex justify-between py-2 items-center">
-                <span>Subsequent Semesters (Flexible monthly PTPTN / installment)</span>
+
+              <div className="flex justify-between py-2.5 border-b border-slate-200 items-center">
+                <div>
+                  <span className="font-bold text-slate-800 block">Semester 1 Balance Installment</span>
+                  <span className="text-[10px] text-slate-400">Due Aug 30, 2026</span>
+                </div>
+                <span className="font-bold text-slate-800">RM 3,000</span>
+              </div>
+
+              <div className="flex justify-between py-2.5 items-center">
+                <div>
+                  <span className="font-bold text-slate-800 block">Subsequent Semesters (Years 2 & 3)</span>
+                  <span className="text-[10px] text-slate-400">Flexible monthly PTPTN / installment plans</span>
+                </div>
                 <span className="font-bold text-slate-800">Remaining RM 12,000</span>
               </div>
             </div>
@@ -425,20 +650,23 @@ export default function StudentPortalPage() {
                 <h4 className="font-bold text-sm text-slate-900">Your Academic Counselor</h4>
                 <p className="text-xs text-slate-600">
                   Assoc. Prof. Dr. Siti Mariam<br />
-                  Faculty of Computer Science & Multimedia
+                  {studentApp.faculty || 'Faculty of Computer Science & Multimedia'}
                 </p>
-                <div className="text-xs text-slate-500">
-                  Email: <strong>siti.mariam@lincoln.edu.my</strong><br />
-                  Consultation Hours: <strong>Tue & Thu 10:00 AM - 1:00 PM</strong>
+                <div className="text-xs text-slate-600 space-y-1 pt-2 border-t border-slate-200">
+                  <div>Email: <strong>counseling@lincoln.edu.my</strong></div>
+                  <div>Consultation Hours: Mon - Thu, 2:00 PM - 4:00 PM</div>
                 </div>
               </div>
 
               <div className="p-6 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
-                <h4 className="font-bold text-sm text-slate-900">Campus Student Services</h4>
-                <div className="text-xs text-slate-600 space-y-1">
-                  <div>IT Helpdesk: <strong>it.support@lincoln.edu.my</strong></div>
-                  <div>Hostel & Accommodation: <strong>housing@lincoln.edu.my</strong></div>
-                  <div>Student Visa & International: <strong>visa@lincoln.edu.my</strong></div>
+                <h4 className="font-bold text-sm text-slate-900">Admissions & Student Affairs</h4>
+                <p className="text-xs text-slate-600">
+                  Student Central Office, Block A, Level 2<br />
+                  Hotline: +60 3-7806 3478
+                </p>
+                <div className="text-xs text-slate-600 space-y-1 pt-2 border-t border-slate-200">
+                  <div>WhatsApp Helpdesk: +60 12-345 6789</div>
+                  <div>Office Hours: Mon - Fri, 9:00 AM - 5:00 PM</div>
                 </div>
               </div>
             </div>
@@ -447,7 +675,7 @@ export default function StudentPortalPage() {
 
       </main>
 
-      {/* Official Printable Offer Letter Modal */}
+      {/* 5. OFFICIAL PRINTABLE PROVISIONAL OFFER LETTER MODAL */}
       {showOfferModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-xs overflow-y-auto animate-fadeIn">
           <div className="bg-white text-slate-900 rounded-3xl max-w-2xl w-full p-8 sm:p-10 shadow-2xl border border-slate-200 relative my-8 print:p-0 print:border-none print:shadow-none">
@@ -455,19 +683,19 @@ export default function StudentPortalPage() {
             {/* Modal Controls (Hidden when printing) */}
             <div className="flex justify-between items-center pb-4 border-b border-slate-100 print:hidden">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-lincoln uppercase tracking-wider">Official Document</span>
-                <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Verified PDF</span>
+                <span className="text-xs font-bold text-lincoln uppercase tracking-wider">Official University Document</span>
+                <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Accredited Letter</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => {
-                    toast.success('Print dialog opened!')
+                    toast.success('Opening print dialog...')
                     window.print()
                   }}
                   className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition-colors shadow-xs"
                 >
-                  <Printer className="w-3.5 h-3.5" /> Print Letter
+                  <Printer className="w-3.5 h-3.5" /> Print / Save PDF
                 </button>
                 <button
                   onClick={() => setShowOfferModal(false)}
@@ -484,54 +712,57 @@ export default function StudentPortalPage() {
               {/* Header Letterhead */}
               <div className="flex justify-between items-start border-b-2 border-red-800 pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-lincoln text-white rounded-xl flex items-center justify-center font-bold">
-                    <GraduationCap className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 rounded-xl bg-lincoln text-white flex items-center justify-center font-sans font-bold text-lg">
+                    LUC
                   </div>
                   <div>
-                    <h2 className="text-xl font-extrabold tracking-tight text-slate-900 font-sans leading-none">
-                      LINCOLN UNIVERSITY COLLEGE
+                    <h2 className="font-sans font-extrabold text-base tracking-tight text-slate-900 uppercase">
+                      Lincoln University College
                     </h2>
-                    <span className="text-[10px] text-red-700 font-bold uppercase tracking-widest block font-sans mt-0.5">
-                      DKU016(B) • MOHE & MQA ACCREDITED
+                    <span className="text-[10px] text-slate-500 font-sans block">
+                      Registration No: DKU016(B) • Approved by Ministry of Higher Education (MOHE) & MQA
                     </span>
-                    <span className="text-[9px] text-slate-500 font-sans block">
+                    <span className="text-[9px] text-slate-400 font-sans block">
                       Wisma Lincoln, No. 12-18, Jalan SS 6/12, 47301 Petaling Jaya, Selangor, Malaysia
                     </span>
                   </div>
                 </div>
 
                 <div className="text-right font-sans">
-                  <div className="text-[10px] font-mono font-bold text-slate-700">REF: {studentApp?.refId || 'LUC-849201'}</div>
+                  <div className="text-[11px] font-mono font-bold text-lincoln">STUDENT ID: {studentApp.studentId || studentApp.refId}</div>
+                  <div className="text-[10px] font-mono text-slate-700">REF: {studentApp.refId}</div>
                   <div className="text-[10px] text-slate-500">DATE: {new Date().toLocaleDateString('en-MY', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
                 </div>
               </div>
 
               {/* Recipient Details */}
               <div className="space-y-1 font-sans text-xs">
-                <div>To: <strong>{studentApp?.fullName || 'Farhan Rahman'}</strong></div>
-                <div>Email: {studentApp?.email || 'student@lincoln.edu.my'} | Contact: {studentApp?.phone || '+60 12-345 6789'}</div>
-                <div>Nationality: {studentApp?.citizenship || 'Malaysian'}</div>
+                <div>To: <strong className="text-slate-900">{studentApp.fullName}</strong></div>
+                <div>Student ID: <strong className="font-mono text-lincoln">{studentApp.studentId || studentApp.refId}</strong></div>
+                <div>Email: {studentApp.email} | Contact: {studentApp.phone}</div>
+                <div>Nationality: {studentApp.citizenship}</div>
               </div>
 
               {/* Subject */}
               <div className="font-sans font-bold text-sm text-slate-900 border-l-4 border-lincoln pl-3 py-1 bg-red-50/50">
-                OFFICIAL PROVISIONAL OFFER OF ADMISSION — {studentApp?.intake?.toUpperCase() || 'JULY 2026'} INTAKE
+                OFFICIAL PROVISIONAL OFFER OF ADMISSION — {studentApp.intake?.toUpperCase() || 'JULY 2026'} INTAKE
               </div>
 
               {/* Letter Body */}
               <div className="space-y-3 leading-relaxed font-sans text-xs text-slate-700">
                 <p>
-                  Dear <strong>{studentApp?.fullName || 'Candidate'}</strong>,
+                  Dear <strong>{studentApp.fullName}</strong>,
                 </p>
                 <p>
                   We are pleased to inform you that following the assessment of your academic qualifications by the Lincoln University College Admissions Committee, you have been provisionally accepted into the following program:
                 </p>
 
                 <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-1 my-2">
-                  <div><strong>Degree Program:</strong> {studentApp?.program || 'Bachelor of Computer Science (Software Engineering) (Hons)'}</div>
-                  <div><strong>Awarding Faculty:</strong> Faculty of Computer Science & Multimedia</div>
-                  <div><strong>Scheduled Intake:</strong> {studentApp?.intake || 'July 2026'} (Orientation on July 12, 2026)</div>
-                  <div><strong>Scholarship Status:</strong> 50% President Merit Scholarship Approved (-RM 18,000)</div>
+                  <div><strong>Degree Program:</strong> {studentApp.program}</div>
+                  <div><strong>Awarding Faculty:</strong> {studentApp.faculty || 'Faculty of Computer Science & Multimedia'}</div>
+                  <div><strong>Scheduled Intake:</strong> {studentApp.intake} (Orientation on July 12, 2026)</div>
+                  <div><strong>Scholarship Status:</strong> {studentApp.scholarship || '50% President Merit Scholarship Approved'}</div>
+                  <div><strong>Enrollment Status:</strong> {isDepositPaid ? 'Tuition Deposit Verified (Fully Confirmed)' : 'Pending Semester 1 Deposit'}</div>
                 </div>
 
                 <p>
