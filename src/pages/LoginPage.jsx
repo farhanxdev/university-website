@@ -65,8 +65,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[82vh] flex items-center justify-center px-4 py-16">
-      <div className="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-8 space-y-6 relative">
+    <div className="min-h-[82vh] flex items-center justify-center px-4 py-16 relative overflow-hidden">
+      {/* Ambient Futuristic Glowing Aurora Orbs */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/20 rounded-full blur-[110px] pointer-events-none animate-pulseGlow"></div>
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-amber-500/15 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-grid-cyber opacity-20 pointer-events-none"></div>
+
+      <div className="w-full max-w-md bg-white/95 dark:bg-slate-900/90 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl backdrop-blur-xl p-8 space-y-6 relative z-10">
         
         {/* Back link */}
         <Link

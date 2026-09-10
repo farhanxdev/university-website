@@ -43,16 +43,21 @@ export default function ProgramDetailPage() {
   return (
     <div className="space-y-12 pb-24">
       
-      {/* Hero Header with Background Image & Breadcrumbs */}
-      <section className="relative overflow-hidden bg-slate-950 text-white py-14 lg:py-20 border-b border-slate-800">
-        <div className="absolute inset-0 opacity-20">
+      {/* Futuristic Cinematic Hero Header with Ambient Aurora Glows */}
+      <section className="relative overflow-hidden bg-[#070A11] text-white py-14 lg:py-20 border-b border-slate-800">
+        {/* Ambient Futuristic Glowing Aurora Orbs */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/25 rounded-full blur-[110px] pointer-events-none animate-pulseGlow"></div>
+        <div className="absolute top-1/2 -right-32 w-96 h-96 bg-amber-500/15 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-grid-cyber opacity-35 pointer-events-none"></div>
+
+        <div className="absolute inset-0 opacity-20 z-0">
           <img 
             src={program.image} 
             alt={program.title} 
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/85 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070A11] via-[#070A11]/85 to-transparent"></div>
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           {/* Breadcrumb */}
@@ -122,24 +127,24 @@ export default function ProgramDetailPage() {
           <div className="lg:col-span-8 space-y-8">
             
             {/* Overview Card */}
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-                <BookOpen className="w-5 h-5 text-lincoln" />
+            <div className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 backdrop-blur-sm">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <BookOpen className="w-5 h-5 text-lincoln dark:text-red-400" />
                 Course Overview & Objectives
               </h2>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
                 {program.overview}
               </p>
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex border-b border-slate-200 gap-2">
+            <div className="flex border-b border-slate-200 dark:border-slate-800 gap-2">
               <button
                 onClick={() => setActiveTab('syllabus')}
                 className={`pb-3 px-4 text-sm font-bold transition-all border-b-2 ${
                   activeTab === 'syllabus'
-                    ? 'border-lincoln text-lincoln'
-                    : 'border-transparent text-slate-500 hover:text-slate-900'
+                    ? 'border-lincoln text-lincoln dark:border-red-500 dark:text-red-400'
+                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 Syllabus & Modules
@@ -148,8 +153,8 @@ export default function ProgramDetailPage() {
                 onClick={() => setActiveTab('requirements')}
                 className={`pb-3 px-4 text-sm font-bold transition-all border-b-2 ${
                   activeTab === 'requirements'
-                    ? 'border-lincoln text-lincoln'
-                    : 'border-transparent text-slate-500 hover:text-slate-900'
+                    ? 'border-lincoln text-lincoln dark:border-red-500 dark:text-red-400'
+                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 Entry Requirements
@@ -158,8 +163,8 @@ export default function ProgramDetailPage() {
                 onClick={() => setActiveTab('careers')}
                 className={`pb-3 px-4 text-sm font-bold transition-all border-b-2 ${
                   activeTab === 'careers'
-                    ? 'border-lincoln text-lincoln'
-                    : 'border-transparent text-slate-500 hover:text-slate-900'
+                    ? 'border-lincoln text-lincoln dark:border-red-500 dark:text-red-400'
+                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 Career Pathways
@@ -170,17 +175,17 @@ export default function ProgramDetailPage() {
             {activeTab === 'syllabus' && (
               <div className="space-y-4 animate-fadeIn">
                 {program.modules && program.modules.map((mod, i) => (
-                  <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                  <div key={i} className="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3 backdrop-blur-sm">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-lg bg-red-50 text-lincoln font-bold text-xs flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-950/50 text-lincoln dark:text-red-400 font-bold text-xs flex items-center justify-center">
                         {i + 1}
                       </div>
-                      <h4 className="font-bold text-slate-900 text-sm sm:text-base">{mod.year}</h4>
+                      <h4 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">{mod.year}</h4>
                     </div>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-slate-100">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                       {mod.subjects.map((sub, sIdx) => (
-                        <li key={sIdx} className="text-xs text-slate-600 flex items-start gap-2">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                        <li key={sIdx} className="text-xs text-slate-600 dark:text-slate-300 flex items-start gap-2">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                           <span>{sub}</span>
                         </li>
                       ))}
@@ -192,17 +197,17 @@ export default function ProgramDetailPage() {
 
             {/* Tab 2: Requirements */}
             {activeTab === 'requirements' && (
-              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6 animate-fadeIn">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <h3 className="font-bold text-slate-900 text-base">Academic Criteria</h3>
-                  <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
+              <div className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-fadeIn backdrop-blur-sm">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-base">Academic Criteria</h3>
+                  <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
                     Domestic & International
                   </span>
                 </div>
                 <ul className="space-y-3">
                   {program.requirements.map((req, i) => (
-                    <li key={i} className="flex items-start gap-3 text-xs sm:text-sm text-slate-700">
-                      <span className="w-2 h-2 rounded-full bg-lincoln shrink-0 mt-2"></span>
+                    <li key={i} className="flex items-start gap-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+                      <span className="w-2 h-2 rounded-full bg-lincoln dark:bg-red-500 shrink-0 mt-2"></span>
                       <span className="leading-relaxed">{req}</span>
                     </li>
                   ))}
@@ -212,18 +217,18 @@ export default function ProgramDetailPage() {
 
             {/* Tab 3: Careers */}
             {activeTab === 'careers' && (
-              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6 animate-fadeIn">
+              <div className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-fadeIn backdrop-blur-sm">
                 <div>
-                  <h3 className="font-bold text-slate-900 text-base">Graduate Career Opportunities</h3>
-                  <p className="text-xs text-slate-500 mt-1">Direct employment positions suited for graduates of this program.</p>
+                  <h3 className="font-bold text-slate-900 dark:text-white text-base">Graduate Career Opportunities</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Direct employment positions suited for graduates of this program.</p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {program.careers.map((career, i) => (
-                    <div key={i} className="bg-slate-50 border border-slate-200 p-4 rounded-2xl flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl bg-red-100 text-lincoln flex items-center justify-center shrink-0 font-bold text-xs">
+                    <div key={i} className="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-red-100 dark:bg-red-950/60 text-lincoln dark:text-red-400 flex items-center justify-center shrink-0 font-bold text-xs">
                         <Briefcase className="w-4 h-4" />
                       </div>
-                      <span className="text-xs sm:text-sm font-bold text-slate-800">{career}</span>
+                      <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">{career}</span>
                     </div>
                   ))}
                 </div>
@@ -234,37 +239,37 @@ export default function ProgramDetailPage() {
 
           {/* Right 4 Cols: Fast Admission Card */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6 sticky top-28">
+            <div className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6 sticky top-28 backdrop-blur-xl">
               
-              <div className="border-b border-slate-100 pb-4">
-                <span className="text-xs font-bold text-lincoln uppercase tracking-wider">Fast-Track Intake</span>
-                <h3 className="text-xl font-bold text-slate-900 mt-0.5">Apply for Admission</h3>
-                <p className="text-xs text-slate-500 mt-1">Submit your preliminary documents in under 5 minutes.</p>
+              <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+                <span className="text-xs font-mono font-bold text-lincoln dark:text-red-400 uppercase tracking-wider">Fast-Track Intake</span>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">Apply for Admission</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Submit your preliminary documents in under 5 minutes.</p>
               </div>
 
-              <div className="space-y-3 text-xs text-slate-600">
-                <div className="flex justify-between py-1.5 border-b border-slate-100">
-                  <span className="text-slate-500">Degree Level:</span>
-                  <span className="font-bold text-slate-900">{program.level}</span>
+              <div className="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                <div className="flex justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
+                  <span className="text-slate-500 dark:text-slate-400">Degree Level:</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{program.level}</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-slate-100">
-                  <span className="text-slate-500">Full Course Tuition:</span>
-                  <span className="font-bold text-lincoln">{program.tuition}</span>
+                <div className="flex justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
+                  <span className="text-slate-500 dark:text-slate-400">Full Course Tuition:</span>
+                  <span className="font-bold text-lincoln dark:text-red-400">{program.tuition}</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-slate-100">
-                  <span className="text-slate-500">Scheduled Intakes:</span>
-                  <span className="font-bold text-slate-900">{program.intakes}</span>
+                <div className="flex justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
+                  <span className="text-slate-500 dark:text-slate-400">Scheduled Intakes:</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{program.intakes}</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-slate-100">
-                  <span className="text-slate-500">Scholarship Available:</span>
-                  <span className="font-bold text-emerald-600">Up to 50%</span>
+                <div className="flex justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
+                  <span className="text-slate-500 dark:text-slate-400">Scholarship Available:</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">Up to 50%</span>
                 </div>
               </div>
 
               <div className="space-y-2.5 pt-2">
                 <Link
                   to={`/apply?program=${encodeURIComponent(program.title)}`}
-                  className="w-full text-center inline-flex items-center justify-center gap-2 bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3.5 px-4 rounded-xl shadow-md transition-all text-sm"
+                  className="w-full text-center inline-flex items-center justify-center gap-2 bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-red-950/20 transition-all text-sm hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span>Apply for this Program</span>
                   <ArrowRight className="w-4 h-4" />
@@ -272,15 +277,15 @@ export default function ProgramDetailPage() {
 
                 <Link
                   to="/contact"
-                  className="w-full text-center inline-flex items-center justify-center gap-2 text-xs font-bold text-slate-700 hover:text-lincoln bg-slate-100 hover:bg-slate-200 py-3 rounded-xl transition-colors"
+                  className="w-full text-center inline-flex items-center justify-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-lincoln dark:hover:text-red-400 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 py-3 rounded-xl transition-colors"
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>Enquire with an Advisor</span>
                 </Link>
               </div>
 
-              <div className="bg-red-50/70 p-3.5 rounded-2xl border border-red-100 text-[11px] text-slate-600">
-                <strong className="text-slate-900 block">📞 Have questions?</strong>
+              <div className="bg-red-50/70 dark:bg-red-950/40 p-3.5 rounded-2xl border border-red-100 dark:border-red-900/50 text-[11px] text-slate-600 dark:text-slate-300">
+                <strong className="text-slate-900 dark:text-white block">📞 Have questions?</strong>
                 Call our direct admissions office at <strong>+60 3-7806 3478</strong>.
               </div>
 

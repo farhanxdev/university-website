@@ -157,16 +157,22 @@ export default function HomePage() {
     <div className="space-y-16 lg:space-y-24 pb-20">
       
       {/* 1. HERO SECTION: Cinematic University Banner with Real Photography */}
-      <section className="relative overflow-hidden bg-slate-950 text-white min-h-[580px] lg:min-h-[660px] flex items-center">
-        {/* Background Image with Deep Gradient Overlays */}
+      {/* 1. HERO SECTION: Futuristic Cinematic University Banner with Aurora Glows & Cyber Grid */}
+      <section className="relative overflow-hidden bg-[#070A11] text-white min-h-[590px] lg:min-h-[680px] flex items-center">
+        {/* Ambient Futuristic Glowing Aurora Orbs */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/25 rounded-full blur-[110px] pointer-events-none animate-pulseGlow"></div>
+        <div className="absolute top-1/2 -right-32 w-[30rem] h-[30rem] bg-amber-500/15 rounded-full blur-[130px] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-grid-cyber opacity-35 pointer-events-none"></div>
+
+        {/* Background Image with Cinematic Overlays */}
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80" 
             alt="Lincoln University College Campus" 
-            className="w-full h-full object-cover object-center opacity-25 scale-105 transform hover:scale-100 transition-transform duration-1000"
+            className="w-full h-full object-cover object-center opacity-20 scale-105 transform hover:scale-100 transition-transform duration-1000"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-red-950/60"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#070A11] via-[#070A11]/90 to-red-950/50"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#070A11] via-transparent to-transparent"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
@@ -175,15 +181,20 @@ export default function HomePage() {
             {/* Left Hero Text Column */}
             <div className="lg:col-span-7 space-y-6">
               
-              {/* Lincoln Badge */}
-              <div className="inline-flex items-center gap-2 bg-red-900/60 border border-red-500/40 text-red-200 px-4 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <span>2026 Academic Intakes Now Open • MQA & MOHE Accredited</span>
+              {/* Futuristic Cyber Live Badge */}
+              <div className="inline-flex items-center gap-2.5 bg-slate-900/90 border border-red-500/40 text-red-200 px-4 py-1.5 rounded-full text-xs font-semibold backdrop-blur-xl shadow-lg shadow-red-950/50">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span className="text-amber-300 font-mono text-[10px] tracking-widest font-bold">SYS_ONLINE</span>
+                <span className="text-slate-500">•</span>
+                <span className="tracking-wide text-white">2026 Academic Intakes Open • MQA & MOHE Accredited</span>
               </div>
 
               {/* Catchy Headline */}
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12]">
-                Empowering Your Future with <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-300">Global Excellence</span>
+                Empowering Your Future with <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-300">Next-Gen Excellence</span>
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
@@ -194,13 +205,13 @@ export default function HomePage() {
               <div className="pt-2 max-w-xl">
                 <div 
                   onClick={handleOpenSearch}
-                  className="flex items-center gap-3 p-2 sm:p-2.5 bg-white/95 text-slate-900 rounded-2xl shadow-2xl border border-white/20 cursor-pointer hover:border-red-400 hover:shadow-red-900/20 transition-all group"
+                  className="flex items-center gap-3 p-2 sm:p-2.5 bg-white/95 dark:bg-slate-900/90 text-slate-900 dark:text-white rounded-2xl shadow-2xl border border-white/20 dark:border-slate-700/80 cursor-pointer hover:border-red-500/80 hover:shadow-[0_0_30px_rgba(200,16,46,0.3)] transition-all group backdrop-blur-xl"
                 >
                   <Search className="w-5 h-5 text-slate-400 group-hover:text-lincoln transition-colors ml-2 shrink-0" />
-                  <div className="flex-1 text-xs sm:text-sm text-slate-500">
-                    Search 35+ courses or ask AI: <span className="font-semibold text-slate-800">"cheap IT diploma"</span>...
+                  <div className="flex-1 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                    Search 35+ courses or ask AI: <span className="font-semibold text-slate-800 dark:text-slate-200">"cheap IT diploma"</span>...
                   </div>
-                  <span className="bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm">
+                  <span className="bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md">
                     <Sparkles className="w-3.5 h-3.5 text-amber-300" /> AI Search
                   </span>
                 </div>
@@ -219,14 +230,14 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-4 pt-3">
                 <Link
                   to="/programs"
-                  className="inline-flex items-center gap-2 bg-lincoln hover:bg-lincoln-dark text-white font-bold px-7 py-3.5 rounded-xl shadow-lg shadow-red-950/40 hover:shadow-red-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all text-sm"
+                  className="relative inline-flex items-center gap-2 bg-gradient-to-r from-lincoln via-red-700 to-rose-700 text-white font-bold px-7 py-3.5 rounded-xl shadow-xl shadow-red-950/60 hover:shadow-red-600/40 hover:scale-[1.03] active:scale-[0.98] transition-all text-sm overflow-hidden group"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>Browse Programs</span>
                 </Link>
                 <Link
                   to="/apply"
-                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-7 py-3.5 rounded-xl border border-white/20 backdrop-blur-md transition-all text-sm"
+                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-7 py-3.5 rounded-xl border border-white/20 backdrop-blur-md transition-all text-sm hover:border-white/40"
                 >
                   <span>Apply Online</span>
                   <ArrowRight className="w-4 h-4" />
@@ -234,7 +245,7 @@ export default function HomePage() {
                 <button
                   type="button"
                   onClick={() => setTourOpen(true)}
-                  className="inline-flex items-center gap-2.5 bg-slate-900/80 hover:bg-slate-800 text-white font-semibold px-5 py-3.5 rounded-xl border border-slate-700/80 backdrop-blur-md transition-all text-sm group hover:border-red-500/50"
+                  className="inline-flex items-center gap-2.5 bg-slate-900/80 hover:bg-slate-800 text-white font-semibold px-5 py-3.5 rounded-xl border border-slate-700/80 backdrop-blur-md transition-all text-sm group hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(200,16,46,0.2)]"
                 >
                   <span className="w-6 h-6 rounded-full bg-lincoln text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                     <Play className="w-3 h-3 fill-white ml-0.5" />
@@ -245,54 +256,57 @@ export default function HomePage() {
 
             </div>
 
-            {/* Right Hero Feature Card */}
+            {/* Right Hero Feature Card: Holographic Academic Command */}
             <div className="lg:col-span-5">
-              <div className="relative">
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-red-600 to-amber-600 opacity-30 blur-2xl"></div>
+              <div className="relative group">
+                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 opacity-40 blur-2xl group-hover:opacity-60 transition-opacity duration-500"></div>
 
-                <div className="relative bg-slate-900/90 border border-slate-700/80 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-6">
+                <div className="relative bg-slate-900/90 border border-slate-700/90 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-6">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                     <div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-red-400">Lincoln Advantage</span>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-400 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+                        HUD_ACADEMIC_METRICS
+                      </span>
                       <h3 className="text-xl font-bold text-white mt-0.5">Why Study at Lincoln?</h3>
                     </div>
-                    <div className="w-10 h-10 rounded-xl bg-red-600/20 text-red-400 flex items-center justify-center border border-red-500/30">
+                    <div className="w-10 h-10 rounded-xl bg-red-600/20 text-red-400 flex items-center justify-center border border-red-500/30 shadow-xs">
                       <Award className="w-5 h-5 text-amber-400" />
                     </div>
                   </div>
 
                   <div className="space-y-3.5 text-xs sm:text-sm text-slate-300">
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-3 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
                       <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                       <span><strong>50% Merit Scholarships:</strong> Available for SPM, STPM, and Diploma high achievers.</span>
                     </div>
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-3 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
                       <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                       <span><strong>100% Accreditation:</strong> Fully certified by MQA, MOHE, and recognized by JPA.</span>
                     </div>
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-3 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
                       <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                      <span><strong>Guaranteed Internships:</strong> Industry placements with top tech, hospital, and business networks.</span>
+                      <span><strong>Guaranteed Internships:</strong> Industry placements with top tech, hospital, and corporate networks.</span>
                     </div>
                   </div>
 
-                  <div className="bg-slate-800/60 rounded-2xl p-4 border border-slate-700">
+                  <div className="bg-slate-800/80 rounded-2xl p-4 border border-slate-700/80 space-y-2">
                     <div className="flex items-center justify-between text-xs font-semibold text-slate-300">
-                      <span>Next Intake Starting In:</span>
+                      <span className="font-mono text-[11px] text-slate-400">INTAKE_STATUS:</span>
                       <span className="text-red-400 font-bold">July 2026 Intake</span>
                     </div>
-                    <div className="w-full bg-slate-700 h-2 rounded-full mt-2.5 overflow-hidden">
-                      <div className="bg-gradient-to-r from-red-600 to-amber-500 h-full w-[72%] rounded-full"></div>
+                    <div className="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden p-0.5">
+                      <div className="bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 h-full w-[78%] rounded-full animate-pulseSlow"></div>
                     </div>
-                    <div className="flex justify-between text-[11px] text-slate-400 mt-1">
-                      <span>Admissions in progress</span>
-                      <span>Limited Seats</span>
+                    <div className="flex justify-between text-[11px] text-slate-400">
+                      <span>78% Capacity Filled</span>
+                      <span className="text-amber-400 font-semibold">Limited Seats Available</span>
                     </div>
                   </div>
 
                   <Link
                     to="/apply"
-                    className="block text-center w-full bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3.5 rounded-xl shadow-md text-sm transition-all"
+                    className="block text-center w-full bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-red-950/50 text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                     Start Online Admission Now
                   </Link>
@@ -304,7 +318,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. QUICK ACCESS CARDS (Inspired by UTM & UM Portals) */}
+      {/* 2. QUICK ACCESS CARDS: Floating Glassmorphic Pods */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-14 relative z-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {quickActions.map((action, i) => {
@@ -313,16 +327,16 @@ export default function HomePage() {
               <Link
                 key={i}
                 to={action.link}
-                className={`p-5 rounded-2xl border shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 bg-white flex items-center gap-4 group ${action.color}`}
+                className="p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg hover:shadow-2xl hover:shadow-red-500/10 hover:-translate-y-2 hover:border-red-400/50 transition-all duration-300 flex items-center gap-4 group"
               >
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-white shadow-xs group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 bg-red-50 dark:bg-red-950/50 text-lincoln border border-red-100 dark:border-red-900/50 shadow-xs group-hover:scale-110 group-hover:bg-lincoln group-hover:text-white transition-all duration-300">
                   <Icon className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm text-slate-900 group-hover:text-lincoln transition-colors">
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-lincoln transition-colors">
                     {action.title}
                   </h4>
-                  <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">{action.desc}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{action.desc}</p>
                 </div>
               </Link>
             )
@@ -330,36 +344,45 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. KEY STATS STRIP */}
+      {/* 3. KEY STATS STRIP: Futuristic Telemetry Matrix */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+        <div className="relative overflow-hidden rounded-3xl p-8 sm:p-10 border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-black/40">
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/50 to-transparent"></div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-200/60 dark:divide-slate-800">
             {stats.map((item, idx) => (
-              <div key={idx} className="space-y-1.5 pt-4 sm:pt-0">
-                <div className="text-3xl sm:text-4xl font-extrabold text-lincoln tracking-tight">{item.value}</div>
-                <div className="text-sm font-bold text-slate-900">{item.label}</div>
-                <div className="text-xs text-slate-500">{item.desc}</div>
+              <div key={idx} className="space-y-1.5 pt-4 sm:pt-0 group">
+                <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">
+                  SYS_METRIC_0{idx + 1}
+                </span>
+                <div className="text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-lincoln via-red-600 to-rose-500 tracking-tight group-hover:scale-105 transition-transform duration-200">
+                  {item.value}
+                </div>
+                <div className="text-sm font-bold text-slate-900 dark:text-white">{item.label}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">{item.desc}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 4. ACADEMIC FACULTIES SHOWCASE */}
+      {/* 4. ACADEMIC FACULTIES SHOWCASE: Modern Glass Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div>
-            <span className="text-xs font-bold text-lincoln uppercase tracking-widest">Fields of Study</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+            <span className="text-xs font-bold text-lincoln uppercase tracking-widest flex items-center gap-1.5">
+              <span className="w-2 h-0.5 bg-lincoln rounded-full"></span>
+              Fields of Study
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
               Explore Our Key Academic Faculties
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm mt-1">
-              Comprehensive undergraduate and postgraduate programs designed with industry partners.
+            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1">
+              Comprehensive undergraduate and postgraduate programs designed with global industry partners.
             </p>
           </div>
           <Link
             to="/programs"
-            className="mt-3 md:mt-0 inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-lincoln hover:underline"
+            className="mt-3 md:mt-0 inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-lincoln hover:text-red-500 transition-colors"
           >
             <span>View All Programs Directory</span>
             <ArrowRight className="w-4 h-4" />
@@ -373,7 +396,7 @@ export default function HomePage() {
               <Link
                 key={i}
                 to={`/programs?faculty=${encodeURIComponent(fac.facultyParam)}`}
-                className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-red-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+                className="group bg-white/90 dark:bg-slate-900/90 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-red-500/10 hover:border-red-400/60 dark:hover:border-red-500/50 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between backdrop-blur-xl"
               >
                 <div className="relative h-44 overflow-hidden">
                   <img 
@@ -381,9 +404,9 @@ export default function HomePage() {
                     alt={fac.name} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent"></div>
                   <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
-                    <span className="text-xs font-bold bg-lincoln/90 px-2.5 py-1 rounded-lg backdrop-blur-xs flex items-center gap-1">
+                    <span className="text-xs font-bold bg-lincoln/90 px-2.5 py-1 rounded-lg backdrop-blur-md flex items-center gap-1 shadow-sm">
                       <Icon className="w-3.5 h-3.5" /> {fac.short}
                     </span>
                   </div>
@@ -391,17 +414,17 @@ export default function HomePage() {
 
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
                   <div>
-                    <h3 className="font-bold text-slate-900 text-base group-hover:text-lincoln transition-colors line-clamp-2">
+                    <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-lincoln transition-colors line-clamp-2">
                       {fac.name}
                     </h3>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                       {fac.courses}
                     </p>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-lincoln">
+                  <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-lincoln">
                     <span>Explore Degrees</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
                   </div>
                 </div>
               </Link>
@@ -410,17 +433,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. FEATURED ACCREDITED PROGRAMS (With Real Images & Details) */}
+      {/* 5. FEATURED ACCREDITED PROGRAMS: Futuristic Glassmorphic Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div>
-            <span className="text-xs font-bold text-lincoln uppercase tracking-widest">Academics</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Featured Programs</h2>
-            <p className="text-slate-600 text-xs sm:text-sm mt-1">Hand-picked industry degrees with highest graduate employment rates.</p>
+            <span className="text-xs font-bold text-lincoln uppercase tracking-widest flex items-center gap-1.5">
+              <span className="w-2 h-0.5 bg-lincoln rounded-full"></span>
+              Academics
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">Featured Programs</h2>
+            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1">Hand-picked industry degrees with highest graduate employment rates.</p>
           </div>
           <Link
             to="/programs"
-            className="mt-3 md:mt-0 inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-lincoln hover:underline"
+            className="mt-3 md:mt-0 inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-lincoln hover:text-red-500 transition-colors"
           >
             <span>All Courses & Requirements</span>
             <ArrowRight className="w-4 h-4" />
@@ -431,7 +457,7 @@ export default function HomePage() {
           {programsData.slice(0, 3).map((course) => (
             <div
               key={course.id}
-              className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-red-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
+              className="bg-white/90 dark:bg-slate-900/90 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-red-500/10 hover:border-red-400/60 dark:hover:border-red-500/50 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group backdrop-blur-xl"
             >
               <div>
                 <div className="relative h-48 overflow-hidden">
@@ -441,12 +467,12 @@ export default function HomePage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                    <span className="bg-slate-950/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md border border-white/10">
                       {course.level}
                     </span>
                   </div>
                   <div className="absolute top-3 right-3">
-                    <span className="bg-red-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                    <span className="bg-lincoln text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md">
                       {course.duration}
                     </span>
                   </div>
@@ -457,37 +483,37 @@ export default function HomePage() {
                     {course.facultyShort || course.faculty}
                   </span>
 
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-lincoln transition-colors leading-snug line-clamp-2">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-lincoln transition-colors leading-snug line-clamp-2">
                     {course.title}
                   </h3>
 
-                  <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
                     {course.summary}
                   </p>
 
-                  <div className="pt-2 flex items-center justify-between text-xs text-slate-500 border-t border-slate-100">
+                  <div className="pt-2 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800">
                     <div>
-                      <span className="text-slate-400 block text-[10px]">Tuition Fee</span>
-                      <strong className="text-slate-900 font-bold">{course.tuition}</strong>
+                      <span className="text-slate-400 dark:text-slate-500 block text-[10px]">Tuition Fee</span>
+                      <strong className="text-slate-900 dark:text-white font-bold">{course.tuition}</strong>
                     </div>
                     <div>
-                      <span className="text-slate-400 block text-[10px]">Intake</span>
+                      <span className="text-slate-400 dark:text-slate-500 block text-[10px]">Intake</span>
                       <strong className="text-lincoln font-bold">{course.intakes.split(',')[0]}</strong>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="p-6 pt-0 flex items-center justify-between gap-2">
+              <div className="p-6 pt-0 flex items-center justify-between gap-2.5">
                 <Link
                   to={`/programs/${course.id}`}
-                  className="flex-1 text-center py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition-colors"
+                  className="flex-1 text-center py-2.5 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl transition-colors"
                 >
                   View Details
                 </Link>
                 <Link
                   to={`/apply?program=${encodeURIComponent(course.title)}`}
-                  className="flex-1 text-center py-2.5 px-4 bg-lincoln hover:bg-lincoln-dark text-white font-bold text-xs rounded-xl shadow-xs transition-colors"
+                  className="flex-1 text-center py-2.5 px-4 bg-lincoln hover:bg-lincoln-dark text-white font-bold text-xs rounded-xl shadow-md shadow-red-950/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Apply Now
                 </Link>
@@ -503,14 +529,17 @@ export default function HomePage() {
       </section>
 
       {/* 7. MODERN CAMPUS LIFE & FACILITIES GALLERY */}
-      <section className="bg-slate-100/70 py-16 border-y border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-slate-100/70 dark:bg-slate-900/40 py-16 border-y border-slate-200 dark:border-slate-800/80 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-cyber opacity-15 pointer-events-none"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-bold text-lincoln uppercase tracking-widest">Campus Experience</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+            <span className="text-xs font-mono font-bold text-lincoln dark:text-red-400 uppercase tracking-widest bg-red-100 dark:bg-red-950/50 px-3 py-1 rounded-full border border-red-200 dark:border-red-900/50">
+              Campus Experience
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-3">
               World-Class Facilities for Real-World Learning
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm mt-2">
+            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-2">
               From cyber security labs to clinical hospital simulators, Lincoln provides everything you need to succeed.
             </p>
           </div>
@@ -519,7 +548,7 @@ export default function HomePage() {
             {campusFacilities.map((fac, i) => (
               <div 
                 key={i} 
-                className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all group"
+                className="bg-white dark:bg-slate-900/90 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl dark:hover:border-red-500/40 transition-all duration-300 group backdrop-blur-sm hover:-translate-y-1"
               >
                 <div className="h-44 overflow-hidden relative">
                   <img 
@@ -527,12 +556,13 @@ export default function HomePage() {
                     alt={fac.title} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
                 <div className="p-4 space-y-1.5">
-                  <h4 className="font-bold text-sm text-slate-900 group-hover:text-lincoln transition-colors">
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-lincoln dark:group-hover:text-red-400 transition-colors">
                     {fac.title}
                   </h4>
-                  <p className="text-xs text-slate-500 leading-relaxed">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                     {fac.desc}
                   </p>
                 </div>
@@ -545,16 +575,18 @@ export default function HomePage() {
       {/* 8. STUDENT TESTIMONIALS WITH REAL PORTRAITS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs font-bold text-lincoln uppercase tracking-widest">Student Stories</span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">What Our Graduates Say</h2>
-          <p className="text-slate-600 text-xs sm:text-sm mt-2">Real graduates sharing how Lincoln accelerated their career trajectories.</p>
+          <span className="text-xs font-mono font-bold text-lincoln dark:text-red-400 uppercase tracking-widest bg-red-100 dark:bg-red-950/50 px-3 py-1 rounded-full border border-red-200 dark:border-red-900/50">
+            Student Stories
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-3">What Our Graduates Say</h2>
+          <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-2">Real graduates sharing how Lincoln accelerated their career trajectories.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((t, idx) => (
             <div 
               key={idx} 
-              className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md hover:border-red-200 transition-all flex flex-col justify-between space-y-6"
+              className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl dark:hover:border-red-500/40 transition-all flex flex-col justify-between space-y-6 hover:-translate-y-1"
             >
               <div className="space-y-4">
                 <div className="flex text-amber-400 gap-1">
@@ -562,20 +594,20 @@ export default function HomePage() {
                     <Star key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                 </div>
-                <p className="text-xs sm:text-sm text-slate-600 italic leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 italic leading-relaxed">
                   "{t.quote}"
                 </p>
               </div>
 
-              <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+              <div className="flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                 <img 
                   src={t.avatar} 
                   alt={t.name} 
-                  className="w-11 h-11 rounded-full object-cover border-2 border-red-100 shrink-0"
+                  className="w-11 h-11 rounded-full object-cover border-2 border-red-500/40 shrink-0"
                 />
                 <div>
-                  <h4 className="font-bold text-sm text-slate-900">{t.name}</h4>
-                  <p className="text-[11px] text-lincoln font-semibold">{t.course}</p>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">{t.name}</h4>
+                  <p className="text-[11px] text-lincoln dark:text-red-400 font-semibold">{t.course}</p>
                   <p className="text-[10px] text-slate-400 font-medium">{t.company}</p>
                 </div>
               </div>
@@ -588,13 +620,15 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div>
-            <span className="text-xs font-bold text-lincoln uppercase tracking-widest">Campus Life</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Latest News & Events</h2>
-            <p className="text-slate-600 text-xs sm:text-sm mt-1">Stay connected with research symposiums, hackathons, and announcements.</p>
+            <span className="text-xs font-mono font-bold text-lincoln dark:text-red-400 uppercase tracking-widest bg-red-100 dark:bg-red-950/50 px-3 py-1 rounded-full border border-red-200 dark:border-red-900/50">
+              Campus Life
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-3">Latest News & Events</h2>
+            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1">Stay connected with research symposiums, hackathons, and announcements.</p>
           </div>
           <Link
             to="/contact"
-            className="mt-3 md:mt-0 inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-lincoln hover:underline"
+            className="mt-3 md:mt-0 inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-lincoln dark:text-red-400 hover:underline"
           >
             <span>Campus Visit Schedule</span>
             <ArrowRight className="w-4 h-4" />
@@ -627,7 +661,7 @@ export default function HomePage() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all group flex flex-col justify-between"
+              className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl dark:hover:border-red-500/40 transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1"
             >
               <div className="h-44 overflow-hidden relative">
                 <img 
@@ -635,24 +669,24 @@ export default function HomePage() {
                   alt={item.title} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
+                <div className="absolute top-3 left-3 bg-red-600/90 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md">
                   {item.tag}
                 </div>
               </div>
 
               <div className="p-5 space-y-2 flex-1 flex flex-col justify-between">
                 <div>
-                  <span className="text-[11px] font-semibold text-slate-400 block mb-1">{item.date}</span>
-                  <h4 className="font-bold text-slate-900 text-sm leading-snug group-hover:text-lincoln transition-colors">
+                  <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 block mb-1">{item.date}</span>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-sm leading-snug group-hover:text-lincoln dark:group-hover:text-red-400 transition-colors">
                     {item.title}
                   </h4>
-                  <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100">
-                  <Link to="/contact" className="text-xs font-bold text-lincoln hover:text-lincoln-dark inline-flex items-center gap-1">
+                <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
+                  <Link to="/contact" className="text-xs font-bold text-lincoln dark:text-red-400 hover:text-lincoln-dark inline-flex items-center gap-1">
                     <span>Learn More</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
@@ -663,28 +697,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 10. CALL TO ACTION RIBBON */}
+      {/* 10. CALL TO ACTION RIBBON - FUTURISTIC AURORA MESH */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-lincoln via-red-800 to-slate-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-red-500/20 relative overflow-hidden">
-          <div className="space-y-2 max-w-xl relative z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-300">Take the First Step</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold leading-tight">
+        <div className="relative overflow-hidden bg-gradient-to-r from-lincoln via-red-900 to-[#070A11] rounded-3xl p-8 sm:p-14 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-red-500/40 shadow-[0_0_50px_rgba(200,16,46,0.25)]">
+          {/* Cyber Grid & Glowing Orbs */}
+          <div className="absolute inset-0 bg-grid-cyber opacity-30 pointer-events-none"></div>
+          <div className="absolute -top-24 -left-24 w-80 h-80 bg-red-500/30 rounded-full blur-[90px] pointer-events-none animate-pulseGlow"></div>
+          <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-amber-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+          <div className="space-y-3 max-w-xl relative z-10">
+            <div className="inline-flex items-center gap-2 bg-slate-950/70 border border-amber-400/40 text-amber-300 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>SYS_ADMISSIONS // INTAKE 2026</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-extrabold leading-tight">
               Ready to begin your academic journey at Lincoln?
             </h2>
-            <p className="text-red-100 text-xs sm:text-sm">
+            <p className="text-red-100/90 text-xs sm:text-sm leading-relaxed">
               Our academic counselors are ready to guide you through course selection, scholarship options, and admission steps.
             </p>
           </div>
+
           <div className="flex flex-wrap gap-3.5 shrink-0 relative z-10">
             <Link
               to="/apply"
-              className="bg-white text-lincoln hover:bg-slate-100 font-bold px-7 py-3.5 rounded-xl shadow-lg transition-all text-sm hover:scale-105"
+              className="bg-white text-lincoln hover:bg-slate-100 font-extrabold px-8 py-4 rounded-xl shadow-xl transition-all text-sm hover:scale-105 active:scale-95 glow-red-sm"
             >
               Apply Online Today
             </Link>
             <Link
               to="/contact"
-              className="bg-red-950/70 hover:bg-red-900 border border-white/20 text-white font-bold px-7 py-3.5 rounded-xl transition-all text-sm"
+              className="bg-slate-950/80 hover:bg-slate-900 border border-white/20 hover:border-red-400/50 text-white font-bold px-7 py-4 rounded-xl transition-all text-sm backdrop-blur-md"
             >
               Enquire on WhatsApp
             </Link>

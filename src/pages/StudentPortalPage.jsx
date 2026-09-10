@@ -112,7 +112,7 @@ export default function StudentPortalPage() {
   const isDepositPaid = studentApp.depositPaid || studentApp.admissionStage >= 4
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col">
+    <div className="min-h-screen bg-slate-100 dark:bg-[#070A11] flex flex-col transition-colors duration-200">
       
       {/* 1. Dedicated Student Portal Header */}
       <header className="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">

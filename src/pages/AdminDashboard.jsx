@@ -220,7 +220,7 @@ Portal Login: ${window.location.origin}/login?role=student`
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col">
+    <div className="min-h-screen bg-slate-100 dark:bg-[#070A11] flex flex-col transition-colors duration-200">
       
       {/* 1. Dedicated Admin CMS Header */}
       <header className="bg-slate-950 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">

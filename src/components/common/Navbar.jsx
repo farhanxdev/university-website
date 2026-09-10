@@ -46,20 +46,27 @@ export default function Navbar({ onOpenSearch }) {
   const isAdmin = location.pathname.startsWith('/admin')
 
   return (
-    <header className={`sticky top-0 z-40 transition-all duration-200 ${
+    <header className={`sticky top-0 z-40 transition-all duration-300 ${
       scrolled 
-        ? 'bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-md border-b border-slate-200 dark:border-slate-800' 
-        : 'bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800'
+        ? 'bg-white/85 dark:bg-[#070A11]/90 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-black/50 border-b border-slate-200/80 dark:border-slate-800/80' 
+        : 'bg-white/95 dark:bg-[#070A11]/95 backdrop-blur-lg border-b border-slate-200/70 dark:border-slate-800/60'
     }`}>
+      {/* Top Futuristic Glowing Neon Accent Line */}
+      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-lincoln to-transparent opacity-90"></div>
+
       {/* Top micro-announcement bar */}
-      <div className="bg-slate-950 text-slate-300 text-xs py-2 px-4 hidden md:block border-b border-slate-800">
+      <div className="bg-slate-950/95 dark:bg-black/95 text-slate-300 text-xs py-2 px-4 hidden md:block border-b border-slate-800/80">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-6 text-[11px]">
-            <span className="flex items-center gap-1.5 text-slate-300 font-medium">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span className="text-emerald-400 font-semibold">2026 Admissions Open:</span> Up to 50% Merit Scholarships
+            <span className="flex items-center gap-2 text-slate-300 font-medium">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="text-emerald-400 font-bold tracking-wider">ADMISSIONS 2026 ACTIVE:</span>
+              <span>50% Merit Scholarships Available</span>
             </span>
-            <span className="text-slate-500">|</span>
+            <span className="text-slate-700">|</span>
             <span className="flex items-center gap-1.5 text-slate-400">
               <Phone className="w-3 h-3 text-lincoln" /> Hotline: +60 3-7806 3478 (Toll-Free: 1300 880 111)
             </span>
@@ -138,12 +145,12 @@ export default function Navbar({ onOpenSearch }) {
             {/* AI Smart Search Button */}
             <button
               onClick={onOpenSearch}
-              className="inline-flex items-center gap-2 bg-slate-100/80 hover:bg-red-50 hover:text-lincoln text-slate-700 text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-slate-200/80 shadow-xs transition-all group"
+              className="inline-flex items-center gap-2 bg-slate-100/80 dark:bg-slate-900/80 hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-lincoln dark:hover:text-red-400 text-slate-700 dark:text-slate-300 text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-slate-200/80 dark:border-slate-800 hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(200,16,46,0.25)] transition-all group"
               title="Search degrees with AI (Ctrl + K)"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-500 group-hover:rotate-12 transition-transform" />
               <span>AI Search</span>
-              <kbd className="hidden lg:inline-block bg-white text-slate-400 px-1.5 py-0.5 rounded text-[10px] border border-slate-200 font-mono shadow-xs">
+              <kbd className="hidden lg:inline-block bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-400 px-1.5 py-0.5 rounded text-[10px] border border-slate-200 dark:border-slate-700 font-mono shadow-xs">
                 Ctrl K
               </kbd>
             </button>
@@ -151,7 +158,7 @@ export default function Navbar({ onOpenSearch }) {
             {/* Theme Toggle Button (Dark / Light Mode) */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-400 transition-colors shadow-xs"
+              className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-amber-400 transition-colors shadow-xs hover:border-amber-400/40 hover:shadow-[0_0_15px_rgba(245,158,11,0.2)]"
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               aria-label="Toggle Theme"
             >
@@ -175,10 +182,11 @@ export default function Navbar({ onOpenSearch }) {
             ) : (
               <Link
                 to="/apply"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-md shadow-red-900/20 hover:shadow-lg hover:shadow-red-900/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150"
+                className="relative inline-flex items-center gap-2 bg-gradient-to-r from-lincoln via-red-700 to-rose-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-lg shadow-red-900/30 hover:shadow-red-600/40 hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 overflow-hidden group"
               >
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
                 <span>Apply Online</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             )}
           </div>
