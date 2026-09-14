@@ -18,22 +18,34 @@ export default function Footer() {
           {/* Col 1: University Identity */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-lincoln to-red-700 text-white rounded-xl flex items-center justify-center font-bold shadow-lg shadow-red-950/50 glow-red-sm">
-                <GraduationCap className="w-6 h-6" />
+              <div className="bg-white p-1.5 rounded-xl shadow-md border border-slate-700 flex items-center justify-center shrink-0">
+                <img 
+                  src="/images/lincoln/logo.webp" 
+                  alt="Lincoln University College" 
+                  className="h-12 w-auto max-w-[160px] object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
               </div>
               <div>
-                <span className="block text-lg font-extrabold text-white tracking-tight leading-tight">LINCOLN</span>
-                <span className="block text-xs font-semibold text-red-400 uppercase tracking-wider">University College</span>
+                <span className="block text-lg font-black text-white tracking-tight leading-tight">LINCOLN</span>
+                <span className="block text-xs font-semibold text-red-400 uppercase tracking-wider">University College • Malaysia</span>
               </div>
             </div>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Lincoln University College (LUC) is a premier private higher education institution in Malaysia, dedicated to providing globally accredited degrees and industry-ready career pathways.
+            <p className="text-slate-400 text-xs leading-relaxed">
+              Lincoln University College (LUC), located at Petaling Jaya, Malaysia, is a premier private university approved by MOHE and MQA. Crowned with 5-Star SETARA, ISO 9001:2015 certified, and ranked #638 in QS World Rankings 2026.
             </p>
-            <div className="pt-1 flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-1.5 bg-slate-900/90 text-emerald-400 text-xs px-3 py-1 rounded-full border border-emerald-500/30 font-mono">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                MOHE & MQA Accredited
-              </span>
+            {/* Accreditation Badges Row */}
+            <div className="pt-2 flex flex-wrap items-center gap-2">
+              <div className="bg-white/10 hover:bg-white/20 p-1.5 rounded-lg border border-white/10 transition-colors flex items-center gap-1.5">
+                <img src="/images/lincoln/setara.webp" alt="SETARA 5-Star" className="h-6 w-auto object-contain" />
+                <span className="text-[10px] text-slate-200 font-bold">5-Star SETARA</span>
+              </div>
+              <div className="bg-white/10 hover:bg-white/20 p-1.5 rounded-lg border border-white/10 transition-colors flex items-center gap-1.5">
+                <img src="/images/lincoln/iso.webp" alt="ISO 9001" className="h-6 w-auto object-contain" />
+                <span className="text-[10px] text-slate-200 font-bold">ISO 9001:2015</span>
+              </div>
             </div>
           </div>
 
@@ -112,14 +124,34 @@ export default function Footer() {
 
         </div>
 
+        {/* Accreditations & Recognitions Bar */}
+        <div className="py-6 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-400">
+          <div className="flex items-center gap-4 flex-wrap">
+            <span className="font-semibold text-white uppercase tracking-wider text-[11px]">Global Recognitions:</span>
+            <span className="bg-slate-900 border border-slate-800 px-2.5 py-1 rounded text-[11px] text-red-400 font-bold">#638 QS World</span>
+            <span className="bg-slate-900 border border-slate-800 px-2.5 py-1 rounded text-[11px] text-amber-400 font-bold">#196 QS Asia</span>
+            <span className="bg-slate-900 border border-slate-800 px-2.5 py-1 rounded text-[11px] text-emerald-400 font-bold">THE Impact 401-600</span>
+            <span className="bg-slate-900 border border-slate-800 px-2.5 py-1 rounded text-[11px] text-blue-400 font-bold">ACU London</span>
+          </div>
+
+          <div className="flex items-center gap-4 text-xs text-slate-400">
+            <span>Healthcare Centres:</span>
+            <a href="https://www.lincoln.edu.my/poliklinik-lincoln/" target="_blank" rel="noreferrer" className="hover:text-white underline">Poliklinik Lincoln</a>
+            <span>•</span>
+            <a href="https://www.lincoln.edu.my/pusat-pergigian-lincoln-dental-clinic/" target="_blank" rel="noreferrer" className="hover:text-white underline">Pusat Pergigian (Dental)</a>
+            <span>•</span>
+            <a href="https://www.actsugi.com/LincolnUniversityMY/" target="_blank" rel="noreferrer" className="hover:text-white underline">360° Virtual Tour</a>
+          </div>
+        </div>
+
         {/* Bottom Bar with Live Telemetry */}
         <div className="pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
-          <p>© {new Date().getFullYear()} Lincoln University College. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Lincoln University College (LUC). All rights reserved.</p>
           
           <div className="flex items-center gap-3">
             <div className="inline-flex items-center gap-2 bg-slate-900/80 border border-slate-800 text-[11px] font-mono text-slate-400 px-3 py-1 rounded-full">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              <span>SYS_CORE_NODE // KUL_CAMPUS_ONLINE</span>
+              <span>SYS_CORE_NODE // PETALING_JAYA_ONLINE</span>
             </div>
           </div>
         </div>

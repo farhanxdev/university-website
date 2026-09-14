@@ -92,28 +92,25 @@ export default function Navbar({ onOpenSearch }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
-          {/* Brand Logo with Lincoln Crest & Typography */}
-          <Link to="/" className="flex items-center gap-3.5 group">
-            <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-lincoln to-red-800 text-white rounded-2xl flex items-center justify-center shadow-md shadow-red-900/20 group-hover:scale-105 transition-all duration-200">
-                <GraduationCap className="w-7 h-7 text-white" />
-              </div>
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-amber-400 border-2 border-white rounded-full flex items-center justify-center shadow-xs">
-                <Award className="w-2.5 h-2.5 text-slate-900" />
-              </div>
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-none group-hover:text-lincoln transition-colors">
-                  LINCOLN
-                </span>
-                <span className="text-[10px] bg-red-100 dark:bg-red-950 text-lincoln dark:text-red-400 font-bold px-1.5 py-0.5 rounded tracking-wider uppercase border border-red-200/50 dark:border-red-800/50">
-                  LUC
-                </span>
-              </div>
-              <span className="block text-[11px] font-bold tracking-widest text-lincoln uppercase mt-0.5">
-                University College
-              </span>
+          {/* Eye-Catching Official University Logo */}
+          <Link 
+            to="/" 
+            className="group relative flex items-center py-1 transition-transform duration-300 hover:scale-[1.03]"
+            aria-label="Lincoln University College Homepage"
+          >
+            {/* Ambient Eye-Catchy Backlight Glow */}
+            <div className="absolute -inset-1.5 bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 rounded-2xl blur-md opacity-35 group-hover:opacity-75 transition-opacity duration-300 pointer-events-none"></div>
+
+            {/* Official University Logo Badge */}
+            <div className="relative overflow-hidden rounded-xl bg-[#ED1C24] shadow-md shadow-red-600/30 group-hover:shadow-xl group-hover:shadow-red-600/45 border border-red-500/40 dark:border-white/20 transition-all duration-300">
+              <img 
+                src="/images/lincoln/logo.png" 
+                alt="Lincoln University College" 
+                className="h-12 sm:h-14 w-auto object-contain block"
+              />
+
+              {/* Eye-Catching Light Sheen Glare Reflection on Hover */}
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/35 to-transparent pointer-events-none"></div>
             </div>
           </Link>
 

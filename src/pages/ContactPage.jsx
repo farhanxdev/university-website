@@ -266,6 +266,32 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Campus Healthcare & Service Centres */}
+              <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2.5">
+                <span className="text-xs font-bold text-slate-900 dark:text-white block uppercase tracking-wider">
+                  Healthcare & Service Centres
+                </span>
+                <div className="p-3 bg-red-50/70 dark:bg-red-950/40 rounded-xl border border-red-100 dark:border-red-900/50 text-xs space-y-1">
+                  <div className="font-bold text-lincoln dark:text-red-400">Poliklinik Lincoln</div>
+                  <p className="text-slate-600 dark:text-slate-300">On-campus clinic providing medical consultations, physical exams, and health assessments.</p>
+                </div>
+                <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700/60 text-xs space-y-1">
+                  <div className="font-bold text-slate-900 dark:text-white">Pusat Pergigian Lincoln (Dental Clinic)</div>
+                  <p className="text-slate-600 dark:text-slate-300">Equipped with dental surgery operatories for student care and community dental health.</p>
+                </div>
+                <div className="pt-1">
+                  <a 
+                    href="https://www.actsugi.com/LincolnUniversityMY/" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-lincoln dark:text-red-400 hover:underline"
+                  >
+                    <span>Launch 360° Virtual Campus Experience</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 

@@ -6,23 +6,44 @@ export default function AboutPage() {
     {
       name: 'Prof. Dr. Amiya Bhaumik',
       role: 'Founder & President',
-      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-      bio: 'Visionary educationist committed to expanding accessible, high-standard tertiary education across Southeast Asia and globally.',
+      image: '/images/lincoln/leader-amiya-bhaumik.jpg',
+      bio: 'Visionary educationist and founder of Lincoln University College. Former UNESCO Research Fellow (Paris), Executive Vice President of International Education Consulting Group (USA), and recognized globally for advancing accessible quality tertiary education.',
       qualifications: 'PhD in Education, Fellow of International Academic Councils'
     },
     {
-      name: 'Prof. Dr. Abdul Ghafar',
-      role: 'Vice-Chancellor',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
-      bio: 'Distinguished scholar focusing on international research initiatives, student outcomes, and multi-institutional academic partnerships.',
-      qualifications: 'PhD in Strategic Management, Former Dean'
+      name: 'Prof. Datuk Dr. Hajjah Bibi Florina Abdullah',
+      role: 'Pro-Chancellor',
+      image: '/images/lincoln/leader-bibi-florina.jpg',
+      bio: 'Former Director of Nursing at the Ministry of Health Malaysia and former Registrar of the Nursing Board of Malaysia. Renowned healthcare pioneer who led the transformation of healthcare and nursing tertiary education in Malaysia.',
+      qualifications: 'PhD in Healthcare Management, Fellow of Malaysian Healthcare Council'
     },
     {
-      name: 'Assoc. Prof. Dr. Siti Mariam',
-      role: 'Dean, Faculty of Computer Science & IT',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
-      bio: 'Leading computer science researcher spearheading AI curricula, cyber security research labs, and industry tech partnerships.',
-      qualifications: 'PhD in Artificial Intelligence, IEEE Senior Member'
+      name: 'Prof. Dr. Divya Midhunchakkaravarthy',
+      role: 'Dean, Faculty of Computer Science & Multimedia',
+      image: '/images/lincoln/leader-divya.jpg',
+      bio: 'Leading computer scientist and researcher in Artificial Intelligence, machine learning, and data analytics. Directing LUC’s advanced computing initiatives and cyber security technology integrations.',
+      qualifications: 'PhD in Computer Science, Senior IEEE Member, AI Fellow'
+    },
+    {
+      name: 'Prof. Dr. Zulkarnain A. Hatta',
+      role: 'Dean, Faculty of Social Sciences, Arts & Humanities',
+      image: '/images/lincoln/leader-zulkarnain.jpg',
+      bio: 'Distinguished scholar in social welfare, arts, and public policy. An active contributor to global academic forums, including United Nations Centre symposiums in Bangkok on community development.',
+      qualifications: 'PhD in Social Sciences & Policy, Former Academic Director'
+    },
+    {
+      name: 'Prof. Dr. Zarina Binti Awang',
+      role: 'Dean, Faculty of Pharmacy',
+      image: '/images/lincoln/leader-zarina.jpg',
+      bio: 'Accomplished pharmaceutical educator and clinical researcher spearheading international pharmacy conferences, pharmaceutical sciences accreditations, and community healthcare initiatives.',
+      qualifications: 'PhD in Pharmaceutical Sciences, Registered Pharmacist'
+    },
+    {
+      name: 'Prof. Dr. Swamy KB',
+      role: 'Senior Medical Academician, Faculty of Medicine',
+      image: '/images/lincoln/leader-swamy.jpg',
+      bio: 'Honoured for distinguished medical education and community charity healthcare services. Leading clinical anatomy, medical sciences, and hands-on clinical training for future physicians at Lincoln.',
+      qualifications: 'MBBS, MS, PhD in Clinical Anatomy, FAGE'
     },
   ]
 
@@ -95,7 +116,48 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission & Vision Cards */}
+      {/* Official About LUC Narrative Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="glass-panel rounded-3xl p-8 sm:p-12 border border-slate-200/80 dark:border-slate-800 space-y-6">
+          <div className="flex flex-col lg:flex-row gap-8 items-center">
+            <div className="lg:w-1/2 space-y-4">
+              <span className="text-xs font-bold text-lincoln uppercase tracking-widest flex items-center gap-1.5">
+                <span className="w-2 h-0.5 bg-lincoln rounded-full"></span>
+                About Lincoln University College
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">
+                Two Decades of Academic Distinction & Global Accreditation
+              </h2>
+              <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+                Lincoln University College (LUC), located at Petaling Jaya, Malaysia, was established in the year 2002 as Lincoln College (LC) and later upgraded to Lincoln University College in 2011. Lincoln University College is one of the premier private institutions of higher education approved by the Ministry of Higher Education (MOHE) and Malaysian Qualifications Agency (MQA).
+              </p>
+              <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+                The University College is crowned with a <strong>5-Star rating</strong> by the Ministry of Higher Education Malaysia, ranked <strong>#638 in the QS World University Rankings 2026</strong> (#196 in Asia), and ranked <strong>401–600 in the Times Higher Education (THE) Impact Rankings 2025</strong>. LUC is an ISO 9001:2015 certified academic institution, associate member of the Association of Commonwealth Universities (ACU, London), and member of the International Association of Universities (IAU, Paris).
+              </p>
+            </div>
+
+            <div className="lg:w-1/2 grid grid-cols-2 gap-4">
+              <img 
+                src="/images/lincoln/campus-life-1.webp" 
+                alt="Lincoln Campus Life" 
+                className="rounded-2xl shadow-md border border-slate-200 dark:border-slate-800 object-cover h-48 w-full"
+              />
+              <img 
+                src="/images/lincoln/campus-life-2.webp" 
+                alt="Lincoln Healthcare Simulation" 
+                className="rounded-2xl shadow-md border border-slate-200 dark:border-slate-800 object-cover h-48 w-full"
+              />
+              <img 
+                src="/images/lincoln/campus-life-3.webp" 
+                alt="Lincoln Computing Lab" 
+                className="rounded-2xl shadow-md border border-slate-200 dark:border-slate-800 object-cover h-48 w-full col-span-2"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Official Mission & Vision Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white dark:bg-slate-900/90 p-8 sm:p-10 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 relative overflow-hidden group hover:border-red-400 dark:hover:border-red-500/50 hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
@@ -104,7 +166,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Our Mission</h2>
             <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
-              To deliver accessible, career-oriented education through innovative teaching methods and instill professional values, ethical leadership, and practical technical competence for positive global societal impact.
+              The mission of Lincoln University College is to become a truly global university with risk-based approach that enhances lifelong learning opportunities, practical and scientific skills, social values, leadership and entrepreneurship by harnessing information technology along with artificial intelligence to create a noble human society.
             </p>
           </div>
 
@@ -114,7 +176,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Our Vision</h2>
             <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
-              To be an internationally recognized premier institution of higher learning that fosters intellectual inquiry, technological innovation, and sustainable development across multidisciplinary spheres.
+              To be an acclaimed institution of higher learning that provides world class education with high capability in providing knowledgeable and skillful professionals to serve the global society.
             </p>
           </div>
         </div>
@@ -202,21 +264,43 @@ export default function AboutPage() {
       {/* Official Accreditations Strip */}
       <section className="bg-[#070A11] text-white py-16 border-y border-slate-800 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-cyber opacity-20 pointer-events-none"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-10">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-2xl font-bold">Government & International Accreditations</h2>
             <p className="text-slate-400 text-xs sm:text-sm mt-1">Ensuring your degree holds full academic and legal standing worldwide.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {accreditations.map((item, i) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {[
+              { name: 'SETARA 5-Star', img: '/images/lincoln/setara.webp', desc: 'Ministry of Higher Education' },
+              { name: 'ISO 9001:2015', img: '/images/lincoln/iso.webp', desc: 'Certified Quality Management' },
+              { name: 'QS World Ranking', img: '/images/lincoln/qs-rank.png', desc: '#638 in World 2026' },
+              { name: 'THE Impact Rankings', img: '/images/lincoln/the-rank.jpg', desc: 'Ranked 401-600 Globally' },
+              { name: 'Student Mobility', img: '/images/lincoln/student-mobility.webp', desc: 'International Exchange' },
+            ].map((badge, idx) => (
               <div 
-                key={i} 
-                className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 hover:border-emerald-500/50 hover:shadow-lg transition-all text-center space-y-1 backdrop-blur-sm group"
+                key={idx} 
+                className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 hover:border-red-500/50 hover:shadow-lg transition-all text-center flex flex-col items-center justify-between gap-3 backdrop-blur-sm"
               >
-                <CheckCircle2 className="w-6 h-6 text-emerald-400 mx-auto group-hover:scale-110 transition-transform" />
-                <h4 className="font-bold text-sm text-white">{item.name}</h4>
-                <span className="text-xs text-red-400 font-semibold font-mono">{item.code}</span>
+                <div className="h-14 flex items-center justify-center">
+                  <img 
+                    src={badge.img} 
+                    alt={badge.name} 
+                    className="max-h-12 max-w-[120px] object-contain"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-white">{badge.name}</h4>
+                  <p className="text-[10px] text-slate-400">{badge.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-6 border-t border-slate-800 flex flex-wrap items-center justify-center gap-6 opacity-75">
+            {['r1.jpg', 'r2.jpg', 'r4.jpg', 'r6.jpg', 'r7.jpg', 'r8.jpg', 'r9.jpg', 'r14.jpg', 'r15.jpg', 'r18.jpg'].map((img, i) => (
+              <div key={i} className="bg-white p-2 rounded-xl shadow-xs">
+                <img src={`/images/lincoln/${img}`} alt={`Recognition ${i + 1}`} className="h-8 w-auto max-w-[80px] object-contain" />
               </div>
             ))}
           </div>

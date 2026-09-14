@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import { 
   ArrowRight, 
@@ -23,7 +23,9 @@ import {
   Play,
   X,
   Video,
-  MapPin
+  MapPin,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
 import { programsData } from '../data/programsData'
 import AIRecommender from '../components/ai/AIRecommender'
@@ -32,12 +34,65 @@ export default function HomePage() {
   const outletContext = useOutletContext()
   const handleOpenSearch = outletContext?.onOpenSearch
   const [tourOpen, setTourOpen] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  const heroBanners = [
+    {
+      title: 'QS World University Rankings 2026',
+      badge: '#638 World • #196 Asia',
+      desc: '#47 in South-Eastern Asia | Ministry of Higher Education Malaysia 5-Star SETARA',
+      image: '/images/lincoln/qs-banner.jpg',
+      tag: 'Global Ranking'
+    },
+    {
+      title: 'Times Higher Education Impact Rankings 2025',
+      badge: 'Ranked 401–600 Globally',
+      desc: 'Recognized worldwide for research impact and UN Sustainable Development Goals',
+      image: '/images/lincoln/the-banner.jpg',
+      tag: 'Global Impact'
+    },
+    {
+      title: 'Bachelor’s Degree Programs',
+      badge: 'Ignite Potential • Create Your Future',
+      desc: 'Industry-integrated undergraduate degrees in IT, Medicine, Pharmacy, Business & Engineering',
+      image: '/images/lincoln/banner-bachelors.jpg',
+      tag: 'Undergraduate'
+    },
+    {
+      title: 'Master’s Degree Opportunities',
+      badge: 'Advance Knowledge • Empower Leadership',
+      desc: 'Top-tier MBA, MSc, and specialized postgraduate programs with flexible modes',
+      image: '/images/lincoln/banner-masters.jpg',
+      tag: 'Postgraduate'
+    },
+    {
+      title: 'Embark on Your PhD Research Journey',
+      badge: 'Pursue Excellence • Achieve Global Impact',
+      desc: 'Doctorate programs supervised by internationally acclaimed professors and researchers',
+      image: '/images/lincoln/banner-phd.jpg',
+      tag: 'Doctorate'
+    },
+    {
+      title: 'Professional Diploma Pathways',
+      badge: 'Gain Skills • Build Your Career',
+      desc: 'Hands-on practical diplomas with industry certifications and fast-track degree entry',
+      image: '/images/lincoln/banner-diploma.jpg',
+      tag: 'Diploma'
+    }
+  ]
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroBanners.length)
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [heroBanners.length])
 
   const stats = [
-    { label: 'Accredited Programs', value: '35+', desc: 'MQA & MOHE Approved' },
-    { label: 'Global Students', value: '12,000+', desc: 'From 40+ Nationalities' },
-    { label: 'Graduate Employability', value: '94%', desc: 'Within 6 Months' },
-    { label: 'Partner Universities', value: '25+', desc: 'UK, US & Australia' },
+    { label: 'QS World Ranking', value: '#638', desc: 'World University Rankings 2026' },
+    { label: 'QS Asia Ranking', value: '#196', desc: '#47 in South-Eastern Asia' },
+    { label: 'THE Impact Rankings', value: '401-600', desc: 'Times Higher Education 2025' },
+    { label: 'SETARA Rating', value: '5-Star', desc: 'Ministry of Higher Education' },
   ]
 
   const quickActions = [
@@ -50,7 +105,7 @@ export default function HomePage() {
     },
     {
       title: 'Apply Online',
-      desc: 'Complete application in under 5 minutes',
+      desc: 'Lincoln Online Admission Application',
       icon: FileText,
       link: '/apply',
       color: 'bg-amber-50 text-amber-700 border-amber-100 hover:border-amber-300'
@@ -64,7 +119,7 @@ export default function HomePage() {
     },
     {
       title: 'Talk to Admissions',
-      desc: 'Direct consultation via hotline or WhatsApp',
+      desc: 'Direct consultation: +603-7806 3478',
       icon: MessageCircle,
       link: '/contact',
       color: 'bg-blue-50 text-blue-700 border-blue-100 hover:border-blue-300'
@@ -73,59 +128,147 @@ export default function HomePage() {
 
   const faculties = [
     {
-      name: 'Faculty of Computer Science & Multimedia',
-      short: 'Computer Science & IT',
-      courses: 'Software Eng, Cyber Security, IT Diploma',
+      name: 'School of AI Computing & Multimedia',
+      short: 'AI Computing & IT',
+      courses: 'Software Engineering, AI, Cyber Security, Data Science',
       icon: Laptop,
-      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80',
+      image: '/images/lincoln/faculty-ai.webp',
       facultyParam: 'Computer Science'
     },
     {
-      name: 'Faculty of Business & Accountancy',
-      short: 'Business & Management',
-      courses: 'BBA (Hons), MBA, Finance & Marketing',
-      icon: Briefcase,
-      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80',
-      facultyParam: 'Business'
-    },
-    {
-      name: 'Faculty of Medicine & Health Sciences',
-      short: 'Medicine & Nursing',
-      courses: 'Bachelor in Nursing, Pharmacy, Health',
+      name: 'School of Medicine',
+      short: 'Medicine & Healthcare',
+      courses: 'Doctor of Medicine (MD), Medical Sciences, Pre-Med',
       icon: Stethoscope,
-      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80',
+      image: '/images/lincoln/faculty-medicine.webp',
       facultyParam: 'Medicine'
     },
     {
-      name: 'Faculty of Applied Science & Engineering',
-      short: 'Engineering & Technology',
-      courses: 'Biomedical Engineering, Technology',
+      name: 'School of Dentistry',
+      short: 'Dentistry & Surgery',
+      courses: 'Doctor of Dental Surgery (DDS), Dental Surgery Assistant',
+      icon: Award,
+      image: '/images/lincoln/faculty-dentistry.webp',
+      facultyParam: 'Medicine'
+    },
+    {
+      name: 'School of Pharmacy',
+      short: 'Pharmacy',
+      courses: 'Bachelor of Pharmacy (Hons), Pharmaceutical Technology',
+      icon: Stethoscope,
+      image: '/images/lincoln/faculty-pharmacy.webp',
+      facultyParam: 'Medicine'
+    },
+    {
+      name: 'School of Health & Applied Science',
+      short: 'Nursing & Allied Health',
+      courses: 'BSc (Hons) Nursing, Physiotherapy, Medical Imaging',
+      icon: Stethoscope,
+      image: '/images/lincoln/faculty-nursing.jpg',
+      facultyParam: 'Medicine'
+    },
+    {
+      name: 'School of Business & Management',
+      short: 'Business & Management',
+      courses: 'BBA (Hons), MBA, International Business, HR',
+      icon: Briefcase,
+      image: '/images/lincoln/faculty-business.webp',
+      facultyParam: 'Business'
+    },
+    {
+      name: 'School of Accounting & Finance',
+      short: 'Accounting & Finance',
+      courses: 'Bachelor of Accounting, Banking & Finance, ACCA',
+      icon: Briefcase,
+      image: '/images/lincoln/faculty-accounting.webp',
+      facultyParam: 'Business'
+    },
+    {
+      name: 'School of Engineering & Built Environment',
+      short: 'Engineering & Built Env.',
+      courses: 'Mechanical, Civil, Electrical & Biomedical Engineering',
       icon: Building2,
-      image: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=600&q=80',
+      image: '/images/lincoln/faculty-engineering.jpg',
       facultyParam: 'Engineering'
+    },
+    {
+      name: 'School of Hospitality & Tourism',
+      short: 'Hospitality & Tourism',
+      courses: 'Hotel Management, Culinary Arts, Tourism Operations',
+      icon: Globe2,
+      image: '/images/lincoln/faculty-hospitality.webp',
+      facultyParam: 'Business'
+    },
+    {
+      name: 'School of Education',
+      short: 'Education & Pedagogy',
+      courses: 'Early Childhood Education, TESL, Education Leadership',
+      icon: BookOpen,
+      image: '/images/lincoln/faculty-education.jpg',
+      facultyParam: 'Business'
+    },
+    {
+      name: 'School of Social Sciences, Arts & Humanities',
+      short: 'Social Sciences & Arts',
+      courses: 'Psychology, Mass Communication, English Literature',
+      icon: Users,
+      image: '/images/lincoln/faculty-socialscience.webp',
+      facultyParam: 'Business'
+    },
+    {
+      name: 'School of Performing Arts and Design (SPAD)',
+      short: 'Arts & Design (SPAD)',
+      courses: 'Fashion Design, Graphic Design, Digital Media Arts',
+      icon: Sparkles,
+      image: '/images/lincoln/faculty-spad.jpg',
+      facultyParam: 'Computer Science'
+    },
+    {
+      name: 'Centre of Foundation Studies',
+      short: 'Foundation Studies',
+      courses: 'Foundation in Science, Foundation in Arts',
+      icon: BookOpen,
+      image: '/images/lincoln/faculty-foundation.jpg',
+      facultyParam: 'Computer Science'
+    },
+    {
+      name: 'Centre of Open & Distance Learning (ODL)',
+      short: 'Online & Distance Learning',
+      courses: 'Flexible online undergraduate & postgraduate degrees',
+      icon: Globe2,
+      image: '/images/lincoln/faculty-odl.webp',
+      facultyParam: 'Computer Science'
     }
+  ]
+
+  const recognitionBadges = [
+    { name: 'SETARA 5-Star', img: '/images/lincoln/setara.webp', desc: 'MoHE Malaysia Top Rating' },
+    { name: 'ISO 9001:2015', img: '/images/lincoln/iso.webp', desc: 'Certified Academic Quality' },
+    { name: 'QS World Ranking', img: '/images/lincoln/qs-rank.png', desc: '#638 in World 2026' },
+    { name: 'THE Impact Rankings', img: '/images/lincoln/the-rank.jpg', desc: 'Ranked 401-600 Globally' },
+    { name: 'Student Mobility', img: '/images/lincoln/student-mobility.webp', desc: 'Global Student Exchange' },
   ]
 
   const campusFacilities = [
     {
-      title: 'Cyber Security & AI Research Lab',
-      desc: 'Equipped with dedicated server clusters and SOC monitoring terminals.',
-      image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'
+      title: 'Poliklinik Lincoln Healthcare Centre',
+      desc: 'On-campus outpatient clinic providing medical services to students, staff, and the local Petaling Jaya community.',
+      image: '/images/lincoln/campus-life-2.webp'
     },
     {
-      title: 'High-Tech Digital Library',
-      desc: 'Over 100,000 digital journals, quiet study pods, and collaborative rooms.',
-      image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=600&q=80'
+      title: 'Pusat Pergigian Lincoln (Dental Clinic)',
+      desc: 'Specialized dental clinic outfitted with advanced diagnostic and clinical treatment operatories.',
+      image: '/images/lincoln/faculty-dentistry.webp'
     },
     {
-      title: 'Clinical Healthcare Simulation Ward',
-      desc: 'Hospital-grade simulation training for nursing and biomedical students.',
-      image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600&q=80'
+      title: 'Lincoln AI & High-Tech Computing Lab',
+      desc: 'Equipped with dedicated cloud clusters, GPU nodes, and specialized cyber security test environments.',
+      image: '/images/lincoln/campus-life-3.webp'
     },
     {
-      title: 'Student Commons & Global Lounge',
-      desc: 'Vibrant social hub for student clubs, hackathons, and cultural festivals.',
-      image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80'
+      title: 'Student Commons & Global Mobility Hub',
+      desc: 'Multicultural hub supporting students from 40+ countries with collaborative study pods and academic advisory.',
+      image: '/images/lincoln/campus-life-1.webp'
     }
   ]
 
@@ -255,57 +398,93 @@ export default function HomePage() {
 
             </div>
 
-            {/* Right Hero Feature Card: Holographic Academic Command */}
+            {/* Right Hero Feature Column: Official Lincoln Campaign Banner & Metrics */}
             <div className="lg:col-span-5">
               <div className="relative group">
                 <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 opacity-30 dark:opacity-40 blur-2xl group-hover:opacity-50 transition-opacity duration-500"></div>
 
-                <div className="relative glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
-                  <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-600 dark:text-red-400 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                        HUD_ACADEMIC_METRICS
+                <div className="relative glass-panel rounded-3xl p-5 sm:p-6 shadow-2xl space-y-4">
+                  
+                  {/* Official Lincoln Banner Carousel Slide */}
+                  <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200/80 dark:border-slate-800 bg-slate-950 aspect-[16/11]">
+                    <img 
+                      src={heroBanners[currentSlide].image} 
+                      alt={heroBanners[currentSlide].title}
+                      className="w-full h-full object-cover object-center transition-all duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+                    
+                    {/* Top slide category tag */}
+                    <div className="absolute top-3 left-3 flex items-center gap-2">
+                      <span className="bg-red-600/90 text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider backdrop-blur-sm shadow-sm">
+                        {heroBanners[currentSlide].tag}
                       </span>
-                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">Why Study at Lincoln?</h3>
                     </div>
-                    <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-600/20 text-red-600 dark:text-red-400 flex items-center justify-center border border-red-200 dark:border-red-500/30 shadow-xs">
-                      <Award className="w-5 h-5 text-amber-500 dark:text-amber-400" />
+
+                    {/* Slide Navigation Arrows */}
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5">
+                      <button 
+                        type="button"
+                        onClick={() => setCurrentSlide((prev) => (prev - 1 + heroBanners.length) % heroBanners.length)}
+                        className="w-7 h-7 rounded-full bg-black/70 hover:bg-red-600 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+                        aria-label="Previous Banner"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => setCurrentSlide((prev) => (prev + 1) % heroBanners.length)}
+                        className="w-7 h-7 rounded-full bg-black/70 hover:bg-red-600 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+                        aria-label="Next Banner"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Bottom caption overlay */}
+                    <div className="absolute bottom-3 inset-x-3 text-white space-y-0.5">
+                      <span className="text-[11px] font-bold text-amber-300 tracking-wide block">
+                        {heroBanners[currentSlide].badge}
+                      </span>
+                      <h4 className="font-extrabold text-sm sm:text-base leading-snug line-clamp-1">
+                        {heroBanners[currentSlide].title}
+                      </h4>
+                      <p className="text-[11px] text-slate-300 line-clamp-1">
+                        {heroBanners[currentSlide].desc}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="space-y-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                    <div className="flex items-start gap-3 p-3 rounded-2xl bg-white/60 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                      <span><strong>50% Merit Scholarships:</strong> Available for SPM, STPM, and Diploma high achievers.</span>
-                    </div>
-                    <div className="flex items-start gap-3 p-3 rounded-2xl bg-white/60 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                      <span><strong>100% Accreditation:</strong> Fully certified by MQA, MOHE, and recognized by JPA.</span>
-                    </div>
-                    <div className="flex items-start gap-3 p-3 rounded-2xl bg-white/60 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                      <span><strong>Guaranteed Internships:</strong> Industry placements with top tech, hospital, and corporate networks.</span>
-                    </div>
+                  {/* Banner Indicator Dots */}
+                  <div className="flex justify-center items-center gap-1.5">
+                    {heroBanners.map((_, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setCurrentSlide(idx)}
+                        className={`h-1.5 rounded-full transition-all duration-300 ${
+                          currentSlide === idx ? 'w-6 bg-red-600' : 'w-2 bg-slate-300 dark:bg-slate-700'
+                        }`}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
                   </div>
 
-                  <div className="bg-white/70 dark:bg-slate-800/80 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700/80 space-y-2 backdrop-blur-sm">
-                    <div className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300">
-                      <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">INTAKE_STATUS:</span>
-                      <span className="text-red-600 dark:text-red-400 font-bold">July 2026 Intake</span>
+                  {/* Key Highlights */}
+                  <div className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+                    <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/60 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                      <span><strong>50% Merit Scholarships:</strong> For SPM, STPM & Diplomas.</span>
                     </div>
-                    <div className="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden p-0.5">
-                      <div className="bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 h-full w-[78%] rounded-full animate-pulseSlow"></div>
-                    </div>
-                    <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-                      <span>78% Capacity Filled</span>
-                      <span className="text-amber-600 dark:text-amber-400 font-semibold">Limited Seats Available</span>
+                    <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/60 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                      <span><strong>100% Accredited:</strong> Ministry of Higher Education & MQA.</span>
                     </div>
                   </div>
 
                   <Link
                     to="/apply"
-                    className="block text-center w-full bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-red-950/30 text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    className="block text-center w-full bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-950/30 text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                     Start Online Admission Now
                   </Link>
@@ -360,6 +539,66 @@ export default function HomePage() {
                 <div className="text-xs text-slate-500 dark:text-slate-400">{item.desc}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3.5 OFFICIAL ACCREDITATIONS & GLOBAL RECOGNITIONS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800 pb-4">
+            <div>
+              <span className="text-xs font-bold text-lincoln uppercase tracking-widest flex items-center gap-1.5">
+                <span className="w-2 h-0.5 bg-lincoln rounded-full"></span>
+                Official Accreditations & Recognitions
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
+                Globally Acclaimed Academic Excellence
+              </h3>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md">
+              Lincoln University College holds premier institutional accreditations and membership in international academic bodies across the UK, Europe, and Asia.
+            </p>
+          </div>
+
+          {/* Primary Badges Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {recognitionBadges.map((badge, idx) => (
+              <div 
+                key={idx} 
+                className="bg-white/80 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 flex flex-col items-center text-center justify-between gap-2.5 shadow-sm hover:scale-105 transition-transform duration-200"
+              >
+                <div className="h-16 flex items-center justify-center">
+                  <img 
+                    src={badge.img} 
+                    alt={badge.name} 
+                    className="max-h-14 max-w-[120px] object-contain"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-slate-900 dark:text-white">{badge.name}</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">{badge.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Partner Recognitions Row */}
+          <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80">
+            <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-3 text-center sm:text-left">
+              International Partner Universities & Professional Bodies
+            </span>
+            <div className="flex flex-wrap items-center justify-center sm:justify-between gap-4 opacity-80 hover:opacity-100 transition-opacity">
+              {['r1.jpg', 'r2.jpg', 'r4.jpg', 'r6.jpg', 'r7.jpg', 'r8.jpg', 'r9.jpg', 'r14.jpg', 'r15.jpg', 'r17.jpg'].map((img, i) => (
+                <div key={i} className="bg-white p-2 rounded-xl shadow-xs border border-slate-100 dark:border-slate-800">
+                  <img 
+                    src={`/images/lincoln/${img}`} 
+                    alt={`Partner ${i + 1}`} 
+                    className="h-9 w-auto max-w-[85px] object-contain"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -637,25 +876,25 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             {
-              tag: 'Open Day',
-              date: 'April 18, 2026',
-              title: 'Lincoln University Annual Open Day & Instant Scholarship Assessment',
-              desc: 'Tour high-speed computing labs, meet deans, and get on-the-spot scholarship approvals.',
-              image: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=600&q=80'
+              tag: 'QS Rankings',
+              date: 'Latest Ranking Release',
+              title: 'Lincoln Achieves #638 in QS World Rankings & #196 in Asia',
+              desc: 'Official recognition highlighting rapid advancement in academic peer reputation and international faculty ratio.',
+              image: '/images/lincoln/qs-badge.jpg'
             },
             {
-              tag: 'Innovation',
-              date: 'May 05, 2026',
-              title: 'National Cyber Security & AI Hackathon 2026 Hosted by Lincoln',
-              desc: 'Over RM 20,000 in prizes for university teams building modern AI security solutions.',
-              image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80'
+              tag: 'Global Mobility',
+              date: 'Academic Year 2026',
+              title: 'Student Mobility Program: Expand Horizons Across 40+ Partner Institutions',
+              desc: 'Global exchange initiatives offering semester abroad credit transfers to UK, Australia, and European institutions.',
+              image: '/images/lincoln/student-mobility.webp'
             },
             {
-              tag: 'Global Degree',
-              date: 'May 22, 2026',
-              title: 'Dual-Degree MoU Signed with Leading UK & Australian Universities',
-              desc: 'Credit transfer opportunities allowing students to complete their final year overseas.',
-              image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80'
+              tag: 'THE Impact',
+              date: 'THE Rankings 2025',
+              title: 'LUC Ranked 401–600 in Times Higher Education Global Impact Rankings',
+              desc: 'Recognizing research output aligning directly with UN Sustainable Development Goals (SDGs).',
+              image: '/images/lincoln/the-rank.jpg'
             }
           ].map((item, idx) => (
             <div
