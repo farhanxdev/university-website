@@ -44,7 +44,7 @@ export default function ScholarshipCalculator() {
   const monthlyInstallment = Math.round(netPayable / (parseInt(selectedProgram.duration) * 12))
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-xl space-y-8 relative overflow-hidden transition-colors">
+    <div className="glass-panel rounded-3xl p-6 sm:p-10 shadow-xl space-y-8 relative overflow-hidden transition-colors">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-6">
@@ -81,7 +81,7 @@ export default function ScholarshipCalculator() {
             <select
               value={selectedCourseId}
               onChange={(e) => setSelectedCourseId(e.target.value)}
-              className="w-full p-3.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs sm:text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 shadow-xs"
+              className="w-full p-3.5 glass-input rounded-2xl text-xs sm:text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 shadow-xs"
             >
               {programsData.map(p => (
                 <option key={p.id} value={p.id}>

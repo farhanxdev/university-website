@@ -156,23 +156,22 @@ export default function HomePage() {
   return (
     <div className="space-y-16 lg:space-y-24 pb-20">
       
-      {/* 1. HERO SECTION: Cinematic University Banner with Real Photography */}
       {/* 1. HERO SECTION: Futuristic Cinematic University Banner with Aurora Glows & Cyber Grid */}
-      <section className="relative overflow-hidden bg-[#070A11] text-white min-h-[590px] lg:min-h-[680px] flex items-center">
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-100 via-rose-50/40 to-slate-50 dark:from-[#070A11] dark:via-[#0c1220] dark:to-[#070A11] text-slate-900 dark:text-white min-h-[590px] lg:min-h-[680px] flex items-center transition-colors duration-300">
         {/* Ambient Futuristic Glowing Aurora Orbs */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/25 rounded-full blur-[110px] pointer-events-none animate-pulseGlow"></div>
-        <div className="absolute top-1/2 -right-32 w-[30rem] h-[30rem] bg-amber-500/15 rounded-full blur-[130px] pointer-events-none"></div>
-        <div className="absolute inset-0 bg-grid-cyber opacity-35 pointer-events-none"></div>
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/15 dark:bg-red-600/25 rounded-full blur-[110px] pointer-events-none animate-pulseGlow"></div>
+        <div className="absolute top-1/2 -right-32 w-[30rem] h-[30rem] bg-rose-500/10 dark:bg-amber-500/15 rounded-full blur-[130px] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-grid-cyber opacity-25 dark:opacity-35 pointer-events-none"></div>
 
         {/* Background Image with Cinematic Overlays */}
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80" 
             alt="Lincoln University College Campus" 
-            className="w-full h-full object-cover object-center opacity-20 scale-105 transform hover:scale-100 transition-transform duration-1000"
+            className="w-full h-full object-cover object-center opacity-10 dark:opacity-20 scale-105 transform hover:scale-100 transition-transform duration-1000"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#070A11] via-[#070A11]/90 to-red-950/50"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#070A11] via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-50/95 via-slate-50/80 to-red-100/40 dark:from-[#070A11] dark:via-[#070A11]/90 dark:to-red-950/50"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent dark:from-[#070A11] dark:via-transparent dark:to-transparent"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
@@ -182,22 +181,22 @@ export default function HomePage() {
             <div className="lg:col-span-7 space-y-6">
               
               {/* Futuristic Cyber Live Badge */}
-              <div className="inline-flex items-center gap-2.5 bg-slate-900/90 border border-red-500/40 text-red-200 px-4 py-1.5 rounded-full text-xs font-semibold backdrop-blur-xl shadow-lg shadow-red-950/50">
+              <div className="inline-flex items-center gap-2.5 glass-pill px-4 py-1.5 rounded-full text-xs font-semibold text-slate-800 dark:text-red-200 border border-slate-200/80 dark:border-red-500/40 shadow-sm dark:shadow-lg dark:shadow-red-950/50">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span className="text-amber-300 font-mono text-[10px] tracking-widest font-bold">SYS_ONLINE</span>
-                <span className="text-slate-500">•</span>
-                <span className="tracking-wide text-white">2026 Academic Intakes Open • MQA & MOHE Accredited</span>
+                <span className="text-red-600 dark:text-amber-300 font-mono text-[10px] tracking-widest font-bold">SYS_ONLINE</span>
+                <span className="text-slate-400 dark:text-slate-500">•</span>
+                <span className="tracking-wide text-slate-700 dark:text-white">2026 Academic Intakes Open • MQA & MOHE Accredited</span>
               </div>
 
               {/* Catchy Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12]">
-                Empowering Your Future with <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-300">Next-Gen Excellence</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12] text-slate-900 dark:text-white">
+                Empowering Your Future with <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 dark:from-red-500 dark:via-rose-400 dark:to-amber-300">Next-Gen Excellence</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
                 Experience world-class tertiary education in Malaysia. Join a community of over 12,000 ambitious learners with career-ready diplomas, undergraduate degrees, and executive MBAs.
               </p>
 
@@ -205,24 +204,24 @@ export default function HomePage() {
               <div className="pt-2 max-w-xl">
                 <div 
                   onClick={handleOpenSearch}
-                  className="flex items-center gap-3 p-2 sm:p-2.5 bg-white/95 dark:bg-slate-900/90 text-slate-900 dark:text-white rounded-2xl shadow-2xl border border-white/20 dark:border-slate-700/80 cursor-pointer hover:border-red-500/80 hover:shadow-[0_0_30px_rgba(200,16,46,0.3)] transition-all group backdrop-blur-xl"
+                  className="flex items-center gap-3 p-2 sm:p-2.5 glass-panel text-slate-900 dark:text-white rounded-2xl shadow-xl hover:border-red-500/80 hover:shadow-[0_0_30px_rgba(200,16,46,0.2)] transition-all cursor-pointer group"
                 >
                   <Search className="w-5 h-5 text-slate-400 group-hover:text-lincoln transition-colors ml-2 shrink-0" />
-                  <div className="flex-1 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                    Search 35+ courses or ask AI: <span className="font-semibold text-slate-800 dark:text-slate-200">"cheap IT diploma"</span>...
+                  <div className="flex-1 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                    Search 35+ courses or ask AI: <span className="font-semibold text-slate-900 dark:text-slate-200">"cheap IT diploma"</span>...
                   </div>
                   <span className="bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md">
                     <Sparkles className="w-3.5 h-3.5 text-amber-300" /> AI Search
                   </span>
                 </div>
 
-                <div className="mt-2.5 text-xs text-slate-400 flex items-center gap-2">
-                  <span className="text-slate-300 font-semibold">Popular Searches:</span>
-                  <Link to="/programs?faculty=Computer+Science" className="hover:text-red-400 underline decoration-slate-600">Software Engineering</Link>
+                <div className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                  <span className="text-slate-700 dark:text-slate-300 font-semibold">Popular Searches:</span>
+                  <Link to="/programs?faculty=Computer+Science" className="hover:text-red-500 dark:hover:text-red-400 underline decoration-slate-400 dark:decoration-slate-600">Software Engineering</Link>
                   <span>•</span>
-                  <Link to="/programs?faculty=Business" className="hover:text-red-400 underline decoration-slate-600">MBA</Link>
+                  <Link to="/programs?faculty=Business" className="hover:text-red-500 dark:hover:text-red-400 underline decoration-slate-400 dark:decoration-slate-600">MBA</Link>
                   <span>•</span>
-                  <Link to="/programs?faculty=Medicine" className="hover:text-red-400 underline decoration-slate-600">Nursing</Link>
+                  <Link to="/programs?faculty=Medicine" className="hover:text-red-500 dark:hover:text-red-400 underline decoration-slate-400 dark:decoration-slate-600">Nursing</Link>
                 </div>
               </div>
 
@@ -230,14 +229,14 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-4 pt-3">
                 <Link
                   to="/programs"
-                  className="relative inline-flex items-center gap-2 bg-gradient-to-r from-lincoln via-red-700 to-rose-700 text-white font-bold px-7 py-3.5 rounded-xl shadow-xl shadow-red-950/60 hover:shadow-red-600/40 hover:scale-[1.03] active:scale-[0.98] transition-all text-sm overflow-hidden group"
+                  className="relative inline-flex items-center gap-2 bg-gradient-to-r from-lincoln via-red-700 to-rose-700 text-white font-bold px-7 py-3.5 rounded-xl shadow-xl shadow-red-950/20 hover:shadow-red-600/40 hover:scale-[1.03] active:scale-[0.98] transition-all text-sm overflow-hidden group"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>Browse Programs</span>
                 </Link>
                 <Link
                   to="/apply"
-                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-7 py-3.5 rounded-xl border border-white/20 backdrop-blur-md transition-all text-sm hover:border-white/40"
+                  className="inline-flex items-center gap-2 glass-pill hover:bg-slate-200/70 dark:hover:bg-slate-800/80 text-slate-800 dark:text-white font-bold px-7 py-3.5 rounded-xl transition-all text-sm shadow-sm"
                 >
                   <span>Apply Online</span>
                   <ArrowRight className="w-4 h-4" />
@@ -245,7 +244,7 @@ export default function HomePage() {
                 <button
                   type="button"
                   onClick={() => setTourOpen(true)}
-                  className="inline-flex items-center gap-2.5 bg-slate-900/80 hover:bg-slate-800 text-white font-semibold px-5 py-3.5 rounded-xl border border-slate-700/80 backdrop-blur-md transition-all text-sm group hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(200,16,46,0.2)]"
+                  className="inline-flex items-center gap-2.5 glass-pill hover:bg-slate-200/70 dark:hover:bg-slate-800/80 text-slate-800 dark:text-white font-semibold px-5 py-3.5 rounded-xl transition-all text-sm group shadow-sm hover:border-red-500/50"
                 >
                   <span className="w-6 h-6 rounded-full bg-lincoln text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                     <Play className="w-3 h-3 fill-white ml-0.5" />
@@ -259,54 +258,54 @@ export default function HomePage() {
             {/* Right Hero Feature Card: Holographic Academic Command */}
             <div className="lg:col-span-5">
               <div className="relative group">
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 opacity-40 blur-2xl group-hover:opacity-60 transition-opacity duration-500"></div>
+                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 opacity-30 dark:opacity-40 blur-2xl group-hover:opacity-50 transition-opacity duration-500"></div>
 
-                <div className="relative bg-slate-900/90 border border-slate-700/90 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-6">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div className="relative glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+                  <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
                     <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-400 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-600 dark:text-red-400 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                         HUD_ACADEMIC_METRICS
                       </span>
-                      <h3 className="text-xl font-bold text-white mt-0.5">Why Study at Lincoln?</h3>
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">Why Study at Lincoln?</h3>
                     </div>
-                    <div className="w-10 h-10 rounded-xl bg-red-600/20 text-red-400 flex items-center justify-center border border-red-500/30 shadow-xs">
-                      <Award className="w-5 h-5 text-amber-400" />
+                    <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-600/20 text-red-600 dark:text-red-400 flex items-center justify-center border border-red-200 dark:border-red-500/30 shadow-xs">
+                      <Award className="w-5 h-5 text-amber-500 dark:text-amber-400" />
                     </div>
                   </div>
 
-                  <div className="space-y-3.5 text-xs sm:text-sm text-slate-300">
-                    <div className="flex items-start gap-3 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <div className="space-y-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+                    <div className="flex items-start gap-3 p-3 rounded-2xl bg-white/60 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span><strong>50% Merit Scholarships:</strong> Available for SPM, STPM, and Diploma high achievers.</span>
                     </div>
-                    <div className="flex items-start gap-3 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                    <div className="flex items-start gap-3 p-3 rounded-2xl bg-white/60 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span><strong>100% Accreditation:</strong> Fully certified by MQA, MOHE, and recognized by JPA.</span>
                     </div>
-                    <div className="flex items-start gap-3 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                    <div className="flex items-start gap-3 p-3 rounded-2xl bg-white/60 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span><strong>Guaranteed Internships:</strong> Industry placements with top tech, hospital, and corporate networks.</span>
                     </div>
                   </div>
 
-                  <div className="bg-slate-800/80 rounded-2xl p-4 border border-slate-700/80 space-y-2">
-                    <div className="flex items-center justify-between text-xs font-semibold text-slate-300">
-                      <span className="font-mono text-[11px] text-slate-400">INTAKE_STATUS:</span>
-                      <span className="text-red-400 font-bold">July 2026 Intake</span>
+                  <div className="bg-white/70 dark:bg-slate-800/80 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700/80 space-y-2 backdrop-blur-sm">
+                    <div className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">INTAKE_STATUS:</span>
+                      <span className="text-red-600 dark:text-red-400 font-bold">July 2026 Intake</span>
                     </div>
-                    <div className="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden p-0.5">
+                    <div className="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden p-0.5">
                       <div className="bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 h-full w-[78%] rounded-full animate-pulseSlow"></div>
                     </div>
-                    <div className="flex justify-between text-[11px] text-slate-400">
+                    <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
                       <span>78% Capacity Filled</span>
-                      <span className="text-amber-400 font-semibold">Limited Seats Available</span>
+                      <span className="text-amber-600 dark:text-amber-400 font-semibold">Limited Seats Available</span>
                     </div>
                   </div>
 
                   <Link
                     to="/apply"
-                    className="block text-center w-full bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-red-950/50 text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    className="block text-center w-full bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-red-950/30 text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                     Start Online Admission Now
                   </Link>
@@ -327,9 +326,9 @@ export default function HomePage() {
               <Link
                 key={i}
                 to={action.link}
-                className="p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg hover:shadow-2xl hover:shadow-red-500/10 hover:-translate-y-2 hover:border-red-400/50 transition-all duration-300 flex items-center gap-4 group"
+                className="p-5 rounded-3xl glass-card hover:shadow-2xl hover:shadow-red-500/15 hover:-translate-y-2 hover:border-red-400/60 dark:hover:border-red-500/50 transition-all duration-300 flex items-center gap-4 group"
               >
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 bg-red-50 dark:bg-red-950/50 text-lincoln border border-red-100 dark:border-red-900/50 shadow-xs group-hover:scale-110 group-hover:bg-lincoln group-hover:text-white transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 bg-red-50 dark:bg-red-950/60 text-lincoln border border-red-100 dark:border-red-900/50 shadow-xs group-hover:scale-110 group-hover:bg-lincoln group-hover:text-white transition-all duration-300">
                   <Icon className="w-6 h-6" />
                 </div>
                 <div>
@@ -346,9 +345,9 @@ export default function HomePage() {
 
       {/* 3. KEY STATS STRIP: Futuristic Telemetry Matrix */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl p-8 sm:p-10 border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-black/40">
+        <div className="relative overflow-hidden rounded-3xl p-8 sm:p-10 glass-panel shadow-xl">
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/50 to-transparent"></div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-200/60 dark:divide-slate-800">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-200/70 dark:divide-slate-800">
             {stats.map((item, idx) => (
               <div key={idx} className="space-y-1.5 pt-4 sm:pt-0 group">
                 <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">
@@ -396,7 +395,7 @@ export default function HomePage() {
               <Link
                 key={i}
                 to={`/programs?faculty=${encodeURIComponent(fac.facultyParam)}`}
-                className="group bg-white/90 dark:bg-slate-900/90 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-red-500/10 hover:border-red-400/60 dark:hover:border-red-500/50 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between backdrop-blur-xl"
+                className="group glass-card rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-red-500/15 hover:border-red-400/60 dark:hover:border-red-500/50 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="relative h-44 overflow-hidden">
                   <img 
@@ -457,7 +456,7 @@ export default function HomePage() {
           {programsData.slice(0, 3).map((course) => (
             <div
               key={course.id}
-              className="bg-white/90 dark:bg-slate-900/90 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-red-500/10 hover:border-red-400/60 dark:hover:border-red-500/50 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group backdrop-blur-xl"
+              className="glass-card rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-red-500/15 hover:border-red-400/60 dark:hover:border-red-500/50 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
                 <div className="relative h-48 overflow-hidden">
@@ -507,7 +506,7 @@ export default function HomePage() {
               <div className="p-6 pt-0 flex items-center justify-between gap-2.5">
                 <Link
                   to={`/programs/${course.id}`}
-                  className="flex-1 text-center py-2.5 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl transition-colors"
+                  className="flex-1 text-center py-2.5 px-4 bg-slate-100/90 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl transition-colors"
                 >
                   View Details
                 </Link>
@@ -548,7 +547,7 @@ export default function HomePage() {
             {campusFacilities.map((fac, i) => (
               <div 
                 key={i} 
-                className="bg-white dark:bg-slate-900/90 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl dark:hover:border-red-500/40 transition-all duration-300 group backdrop-blur-sm hover:-translate-y-1"
+                className="glass-card rounded-2xl overflow-hidden hover:shadow-xl hover:border-red-400/60 dark:hover:border-red-500/40 transition-all duration-300 group hover:-translate-y-1"
               >
                 <div className="h-44 overflow-hidden relative">
                   <img 
@@ -586,7 +585,7 @@ export default function HomePage() {
           {testimonials.map((t, idx) => (
             <div 
               key={idx} 
-              className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl dark:hover:border-red-500/40 transition-all flex flex-col justify-between space-y-6 hover:-translate-y-1"
+              className="glass-card p-6 sm:p-8 rounded-3xl hover:shadow-xl hover:border-red-400/60 dark:hover:border-red-500/40 transition-all flex flex-col justify-between space-y-6 hover:-translate-y-1"
             >
               <div className="space-y-4">
                 <div className="flex text-amber-400 gap-1">
@@ -661,7 +660,7 @@ export default function HomePage() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl dark:hover:border-red-500/40 transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1"
+              className="glass-card rounded-2xl overflow-hidden hover:shadow-xl hover:border-red-400/60 dark:hover:border-red-500/40 transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1"
             >
               <div className="h-44 overflow-hidden relative">
                 <img 

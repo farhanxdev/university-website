@@ -4,9 +4,13 @@ const ThemeContext = createContext()
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    const saved = localStorage.getItem('luc_theme')
-    if (saved) return saved
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    try {
+      const saved = localStorage.getItem('luc_theme')
+      if (saved === 'dark' || saved === 'light') return saved
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    } catch (e) {
+      return 'light'
+    }
   })
 
   useEffect(() => {
@@ -16,11 +20,13 @@ export function ThemeProvider({ children }) {
     } else {
       root.classList.remove('dark')
     }
-    localStorage.setItem('luc_theme', theme)
+    try {
+      localStorage.setItem('luc_theme', theme)
+    } catch (e) {}
   }, [theme])
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark')
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'))
   }
 
   return (

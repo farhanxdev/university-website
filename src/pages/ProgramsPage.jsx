@@ -69,36 +69,36 @@ export default function ProgramsPage() {
   return (
     <div className="space-y-12 pb-24">
       {/* Futuristic Cinematic Header Banner */}
-      <section className="relative overflow-hidden bg-[#070A11] text-white py-16 md:py-24 border-b border-slate-800">
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-100 via-rose-50/40 to-slate-50 dark:from-[#070A11] dark:via-[#0c1220] dark:to-[#070A11] text-slate-900 dark:text-white py-16 md:py-24 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
         {/* Ambient Futuristic Glowing Aurora Orbs */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/25 rounded-full blur-[110px] pointer-events-none animate-pulseGlow"></div>
-        <div className="absolute top-1/2 -right-32 w-96 h-96 bg-amber-500/15 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute inset-0 bg-grid-cyber opacity-35 pointer-events-none"></div>
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/15 dark:bg-red-600/25 rounded-full blur-[110px] pointer-events-none animate-pulseGlow"></div>
+        <div className="absolute top-1/2 -right-32 w-96 h-96 bg-rose-500/10 dark:bg-amber-500/15 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-grid-cyber opacity-25 dark:opacity-35 pointer-events-none"></div>
 
-        <div className="absolute inset-0 opacity-20 z-0">
+        <div className="absolute inset-0 opacity-10 dark:opacity-20 z-0">
           <img 
             src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80" 
             alt="Students Studying" 
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070A11] via-[#070A11]/85 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-[#070A11] dark:via-[#070A11]/85 dark:to-transparent"></div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-          <div className="inline-flex items-center gap-2.5 bg-slate-900/90 border border-red-500/40 text-red-200 px-4 py-1.5 rounded-full text-xs font-semibold backdrop-blur-xl shadow-lg shadow-red-950/40">
+          <div className="inline-flex items-center gap-2.5 glass-pill px-4 py-1.5 rounded-full text-xs font-semibold text-slate-800 dark:text-red-200 border border-slate-200/80 dark:border-red-500/40 shadow-sm dark:shadow-lg dark:shadow-red-950/40">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span className="text-amber-300 font-mono text-[10px] tracking-widest font-bold">SYS_ACADEMIC_MATRIX</span>
-            <span className="text-slate-500">•</span>
-            <span className="text-white">35+ Accredited Degree & Diploma Pathways</span>
+            <span className="text-red-600 dark:text-amber-300 font-mono text-[10px] tracking-widest font-bold">SYS_ACADEMIC_MATRIX</span>
+            <span className="text-slate-400 dark:text-slate-500">•</span>
+            <span className="text-slate-700 dark:text-white">35+ Accredited Degree & Diploma Pathways</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-            Explore All <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-300">Degree & Diploma</span> Programs
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white">
+            Explore All <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 dark:from-red-500 dark:via-rose-400 dark:to-amber-300">Degree & Diploma</span> Programs
           </h1>
-          <p className="text-slate-300 text-xs sm:text-base leading-relaxed max-w-2xl mx-auto">
+          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-base leading-relaxed max-w-2xl mx-auto">
             Discover career-accelerating pathways accredited by MQA and recognized by international professional boards worldwide.
           </p>
         </div>
@@ -106,7 +106,7 @@ export default function ProgramsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search & Filter Control Bar - Futuristic Glassmorphism */}
-        <div className="bg-white/95 dark:bg-slate-900/90 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl backdrop-blur-xl space-y-6">
+        <div className="glass-panel p-6 rounded-3xl space-y-6">
           
           {/* Top Search Input & Sorting */}
           <div className="flex flex-col md:flex-row gap-4">
@@ -117,12 +117,12 @@ export default function ProgramsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search by degree title, career, or keywords (e.g. 'Software', 'MBA', 'Hospital')..."
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:bg-white dark:focus:bg-slate-800 transition-all shadow-xs"
+                className="w-full pl-12 pr-4 py-3 glass-input rounded-2xl text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-600 shadow-xs"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3.5 top-3 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-md"
+                  className="absolute right-3.5 top-3 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-200/80 dark:bg-slate-700 px-2 py-0.5 rounded-md"
                 >
                   Clear
                 </button>
@@ -135,7 +135,7 @@ export default function ProgramsPage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="py-3 px-3.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-red-600"
+                className="py-3 px-3.5 glass-input rounded-2xl text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-red-600"
               >
                 <option value="default">Sort by: Default</option>
                 <option value="fee-asc">Tuition: Low to High</option>
@@ -225,7 +225,7 @@ export default function ProgramsPage() {
             {filteredPrograms.map((prog) => (
               <div
                 key={prog.id}
-                className="bg-white dark:bg-slate-900/90 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-2xl hover:border-red-300 dark:hover:border-red-500/50 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group backdrop-blur-sm"
+                className="glass-card rounded-3xl overflow-hidden hover:shadow-2xl hover:border-red-400/60 dark:hover:border-red-500/50 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
                   <div className="relative h-48 overflow-hidden">
@@ -296,7 +296,7 @@ export default function ProgramsPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-white dark:bg-slate-900/90 rounded-3xl border border-slate-200 dark:border-slate-800 p-12 text-center space-y-4 shadow-sm">
+          <div className="glass-card rounded-3xl p-12 text-center space-y-4 shadow-sm">
             <div className="w-14 h-14 rounded-2xl bg-red-50 dark:bg-red-950/40 text-lincoln dark:text-red-400 flex items-center justify-center mx-auto">
               <BookOpen className="w-7 h-7" />
             </div>

@@ -44,75 +44,75 @@ export default function ProgramDetailPage() {
     <div className="space-y-12 pb-24">
       
       {/* Futuristic Cinematic Hero Header with Ambient Aurora Glows */}
-      <section className="relative overflow-hidden bg-[#070A11] text-white py-14 lg:py-20 border-b border-slate-800">
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-100 via-rose-50/40 to-slate-50 dark:from-[#070A11] dark:via-[#0c1220] dark:to-[#070A11] text-slate-900 dark:text-white py-14 lg:py-20 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
         {/* Ambient Futuristic Glowing Aurora Orbs */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/25 rounded-full blur-[110px] pointer-events-none animate-pulseGlow"></div>
-        <div className="absolute top-1/2 -right-32 w-96 h-96 bg-amber-500/15 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute inset-0 bg-grid-cyber opacity-35 pointer-events-none"></div>
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-600/15 dark:bg-red-600/25 rounded-full blur-[110px] pointer-events-none animate-pulseGlow"></div>
+        <div className="absolute top-1/2 -right-32 w-96 h-96 bg-rose-500/10 dark:bg-amber-500/15 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-grid-cyber opacity-25 dark:opacity-35 pointer-events-none"></div>
 
-        <div className="absolute inset-0 opacity-20 z-0">
+        <div className="absolute inset-0 opacity-10 dark:opacity-20 z-0">
           <img 
             src={program.image} 
             alt={program.title} 
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070A11] via-[#070A11]/85 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-[#070A11] dark:via-[#070A11]/85 dark:to-transparent"></div>
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <Link to="/" className="hover:text-lincoln dark:hover:text-white transition-colors">Home</Link>
             <span>/</span>
-            <Link to="/programs" className="hover:text-white transition-colors">Programs</Link>
+            <Link to="/programs" className="hover:text-lincoln dark:hover:text-white transition-colors">Programs</Link>
             <span>/</span>
-            <span className="text-red-400 font-semibold truncate max-w-xs">{program.title}</span>
+            <span className="text-red-600 dark:text-red-400 font-semibold truncate max-w-xs">{program.title}</span>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <span className="bg-gradient-to-r from-lincoln to-red-700 text-white text-xs font-bold px-3.5 py-1 rounded-full shadow-xs">
               {program.level}
             </span>
-            <span className="bg-slate-800 text-slate-300 text-xs font-medium px-3.5 py-1 rounded-full border border-slate-700">
+            <span className="glass-pill text-slate-700 dark:text-slate-300 text-xs font-medium px-3.5 py-1 rounded-full">
               {program.faculty}
             </span>
-            <span className="bg-emerald-950 text-emerald-300 border border-emerald-800 text-xs font-medium px-3 py-1 rounded-full flex items-center gap-1">
+            <span className="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 text-xs font-medium px-3.5 py-1 rounded-full flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" /> MQA & MOHE Approved
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight max-w-4xl">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight max-w-4xl">
             {program.title}
           </h1>
 
-          <p className="text-slate-300 text-sm sm:text-base max-w-3xl leading-relaxed">
+          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base max-w-3xl leading-relaxed">
             {program.summary}
           </p>
 
           {/* Quick Facts Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-800/80">
-            <div className="bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800">
-              <span className="text-[11px] text-slate-400 block">Duration</span>
-              <span className="text-sm font-bold text-white flex items-center gap-1.5 mt-0.5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-200 dark:border-slate-800/80">
+            <div className="glass-card p-3.5 rounded-2xl">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Duration</span>
+              <span className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mt-0.5">
                 <Clock className="w-4 h-4 text-lincoln" /> {program.duration}
               </span>
             </div>
-            <div className="bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800">
-              <span className="text-[11px] text-slate-400 block">Study Mode</span>
-              <span className="text-sm font-bold text-white flex items-center gap-1.5 mt-0.5">
+            <div className="glass-card p-3.5 rounded-2xl">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Study Mode</span>
+              <span className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mt-0.5">
                 <GraduationCap className="w-4 h-4 text-lincoln" /> {program.mode}
               </span>
             </div>
-            <div className="bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800">
-              <span className="text-[11px] text-slate-400 block">Estimated Tuition</span>
-              <span className="text-sm font-bold text-white flex items-center gap-1.5 mt-0.5">
-                <DollarSign className="w-4 h-4 text-emerald-400" /> {program.tuition}
+            <div className="glass-card p-3.5 rounded-2xl">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Estimated Tuition</span>
+              <span className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mt-0.5">
+                <DollarSign className="w-4 h-4 text-emerald-500" /> {program.tuition}
               </span>
             </div>
-            <div className="bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800">
-              <span className="text-[11px] text-slate-400 block">Upcoming Intakes</span>
-              <span className="text-sm font-bold text-white flex items-center gap-1.5 mt-0.5">
-                <Calendar className="w-4 h-4 text-amber-400" /> {program.intakes}
+            <div className="glass-card p-3.5 rounded-2xl">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Upcoming Intakes</span>
+              <span className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mt-0.5">
+                <Calendar className="w-4 h-4 text-amber-500" /> {program.intakes}
               </span>
             </div>
           </div>
@@ -127,7 +127,7 @@ export default function ProgramDetailPage() {
           <div className="lg:col-span-8 space-y-8">
             
             {/* Overview Card */}
-            <div className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 backdrop-blur-sm">
+            <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
                 <BookOpen className="w-5 h-5 text-lincoln dark:text-red-400" />
                 Course Overview & Objectives
@@ -175,7 +175,7 @@ export default function ProgramDetailPage() {
             {activeTab === 'syllabus' && (
               <div className="space-y-4 animate-fadeIn">
                 {program.modules && program.modules.map((mod, i) => (
-                  <div key={i} className="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3 backdrop-blur-sm">
+                  <div key={i} className="glass-card p-6 rounded-2xl space-y-3">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-950/50 text-lincoln dark:text-red-400 font-bold text-xs flex items-center justify-center">
                         {i + 1}
@@ -197,7 +197,7 @@ export default function ProgramDetailPage() {
 
             {/* Tab 2: Requirements */}
             {activeTab === 'requirements' && (
-              <div className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-fadeIn backdrop-blur-sm">
+              <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6 animate-fadeIn">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                   <h3 className="font-bold text-slate-900 dark:text-white text-base">Academic Criteria</h3>
                   <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
@@ -217,14 +217,14 @@ export default function ProgramDetailPage() {
 
             {/* Tab 3: Careers */}
             {activeTab === 'careers' && (
-              <div className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-fadeIn backdrop-blur-sm">
+              <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6 animate-fadeIn">
                 <div>
                   <h3 className="font-bold text-slate-900 dark:text-white text-base">Graduate Career Opportunities</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Direct employment positions suited for graduates of this program.</p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {program.careers.map((career, i) => (
-                    <div key={i} className="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl flex items-center gap-3">
+                    <div key={i} className="bg-white/60 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl flex items-center gap-3">
                       <div className="w-8 h-8 rounded-xl bg-red-100 dark:bg-red-950/60 text-lincoln dark:text-red-400 flex items-center justify-center shrink-0 font-bold text-xs">
                         <Briefcase className="w-4 h-4" />
                       </div>
@@ -239,7 +239,7 @@ export default function ProgramDetailPage() {
 
           {/* Right 4 Cols: Fast Admission Card */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-white dark:bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6 sticky top-28 backdrop-blur-xl">
+            <div className="glass-panel p-6 sm:p-8 rounded-3xl space-y-6 sticky top-28">
               
               <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
                 <span className="text-xs font-mono font-bold text-lincoln dark:text-red-400 uppercase tracking-wider">Fast-Track Intake</span>

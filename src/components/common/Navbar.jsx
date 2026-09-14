@@ -48,8 +48,8 @@ export default function Navbar({ onOpenSearch }) {
   return (
     <header className={`sticky top-0 z-40 transition-all duration-300 ${
       scrolled 
-        ? 'bg-white/85 dark:bg-[#070A11]/90 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-black/50 border-b border-slate-200/80 dark:border-slate-800/80' 
-        : 'bg-white/95 dark:bg-[#070A11]/95 backdrop-blur-lg border-b border-slate-200/70 dark:border-slate-800/60'
+        ? 'bg-white/80 dark:bg-[#070A11]/85 backdrop-blur-2xl shadow-xl shadow-slate-900/5 dark:shadow-black/50 border-b border-white/60 dark:border-white/10' 
+        : 'bg-white/90 dark:bg-[#070A11]/90 backdrop-blur-xl border-b border-slate-200/70 dark:border-slate-800/60'
     }`}>
       {/* Top Futuristic Glowing Neon Accent Line */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-lincoln to-transparent opacity-90"></div>
@@ -223,17 +223,17 @@ export default function Navbar({ onOpenSearch }) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 animate-fadeIn shadow-2xl">
+        <div className="md:hidden bg-white/95 dark:bg-[#070A11]/95 backdrop-blur-2xl border-b border-slate-200/80 dark:border-slate-800 px-4 pt-3 pb-6 space-y-3 animate-fadeIn shadow-2xl">
           <div className="space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-3 rounded-xl text-base font-semibold ${
+                className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${
                   isActive(link.path)
-                    ? 'text-lincoln bg-red-50 font-bold'
-                    : 'text-slate-700 hover:bg-slate-50'
+                    ? 'text-lincoln bg-red-50 dark:bg-red-950/50 font-bold'
+                    : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80'
                 }`}
               >
                 {link.name}
@@ -241,12 +241,12 @@ export default function Navbar({ onOpenSearch }) {
             ))}
           </div>
 
-          <div className="pt-3 border-t border-slate-100 space-y-2">
+          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
             {!isAdmin ? (
               <Link
                 to="/apply"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full block text-center bg-lincoln hover:bg-lincoln-dark text-white font-bold py-3.5 rounded-xl shadow-md text-sm"
+                className="w-full block text-center bg-gradient-to-r from-lincoln to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-red-950/20 text-sm"
               >
                 Start Admission Application
               </Link>
@@ -261,14 +261,14 @@ export default function Navbar({ onOpenSearch }) {
               <Link
                 to="/login?role=student"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-center py-2.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl"
+                className="text-center py-2.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-colors"
               >
                 Student Portal
               </Link>
               <Link
                 to="/login?role=admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-center py-2.5 text-xs font-bold text-lincoln bg-red-50 hover:bg-red-100 rounded-xl"
+                className="text-center py-2.5 text-xs font-bold text-lincoln dark:text-red-400 bg-red-50 dark:bg-red-950/50 hover:bg-red-100 dark:hover:bg-red-900/50 rounded-xl transition-colors"
               >
                 Staff CMS Panel
               </Link>
